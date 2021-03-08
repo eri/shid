@@ -19,4 +19,4 @@ While the applications are currently officially closed, our university requested
 
 ## Description
 
-Yeet.
+Soon.
