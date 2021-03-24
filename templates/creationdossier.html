@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="<?=PATH_CSS?>/site.css"/>
+    <link rel="shortcut icon" href="<?=REP_IMAGES?>/favicon.ico" type="image/x-icon"/>
+    <title> SHID - Accueil </title>    
+  </head>
+
+<header class="text-gray-600 bg-body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+      <a class="mr-5 hover:text-gray-900">Patients</a>
+      <a class="mr-5 hover:text-gray-900">Personnels</a>
+      <a class="mr-5 hover:text-gray-900">Documentation</a>
+      <a class="hover:text-gray-900"></a>
+    </nav>
+    <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
+      <img src="https://cdn.discordapp.com/attachments/795652759302701126/818503520692338738/logo.png" class="w-10" />
+    </a>
+    <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+      <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Connexion</button>
+    </div>
+  </div>
+</header>
+
+    <body class="bg-white">
+      <section class="text-blue-900 bg-white body-font">
+        <div class="container px-5 py-24 mx-auto">          
+          <div class="text-center">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-blue-900">Dossier Numero </h1>
+          </div>
+        </div>
+      </section>
+
+      <section class="text-blue-900 bg-white body-font">
+        <div class="container mx-auto flex md:flex-row flex-col items-center border-blue-900">
+          <img alt="challenge" class="w-32 h-32 m-5 bg-blue-900 object-contain object-center flex-shrink-0 rounded-full mr-4" src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png">
+          <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Eray Ozdemir</h1>
+        </div>        
+        <div class="container mx-auto flex md:flex-row flex-col items-center border-blue-900 border-2 rounded-lg">
+        </div>
+          <div class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center border-blue-900">
+          <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Date de Naissance :</h1>
+            <input type="date" id="date_naissance" name="date_naissance" class="w-full bg-white  border border-gray-600 bg-blue-100 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          </div>
+          <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Numéro de Sécurité Sociale :</h1>
+            <input type="number" id="num_ss" name="num_ss" class="w-full bg-white  border border-gray-600 bg-blue-100 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          </div>
+        </div>
+        <div class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center border-blue-900">
+            <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+              <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Civilité :</h1>
+              <input type="text" id="civilite" name="civilite" class="w-full bg-white  border border-gray-600 bg-blue-100 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            </div>
+            <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+              <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Date d'entrée :</h1>
+              <input type="date" id="date_entree" name="date_entree" class="w-full bg-white  border border-gray-600 bg-blue-100 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            </div>
+          </div>
+          <div class="container mx-auto flex md:flex-row flex-col items-center border-blue-900 border-2 rounded-lg">
+        </div>
+        <div class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center">
+            <div class="lg:flex-grow lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+              <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-blue-900">Historique :</h1>
+              <textarea class="w-full bg-white  border border-gray-600 bg-blue-100 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
+            </div>
+        </div> 
+        <div class="container mx-auto flex px-5 py-2 md:flex-row flex-col items-center">
+          <div class="lg:flex-grow lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-5 md:mb-0 items-center text-center">
+            <a href="./listedossier.html"
+            <button class="inline-flex text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-800 text-lg">Revenir</button>
+            </a>
+          </div>
+          <div class="lg:flex-grow lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-5 md:mb-0 items-center text-center">  
+            <input type="submit" class="inline-flex text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-800 text-lg" name="confirmer" value="Confirmer"></input>
+          </div>
+        </div>                                  
+      </section>   
+    </body>
+
+<footer class="text-gray-500 bg-white body-font static bottom-0 w-full">
+  <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+    <p class="text-sm text-black sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-blue-500 border-opacity-90 sm:py-2 sm:mt-0 mt-4">© 2021 SHID —
+      <a href="https://estiam.education" class="text-black ml-1" target="_blank" rel="noopener noreferrer">Réalisé par Eray O. - Rayane K. - Aksel G. - Alexis T. dans le cadre du Projet-intermatiere de Mai 2021</a>
+    </p>
+  </div>    
+</footer>
+
+</html>   
