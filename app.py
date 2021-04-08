@@ -14,7 +14,7 @@ config = {
 }
 
 # Define the Flask Application
-app = Flask(__name__, static_url_path='/', static_folder='static')
+app = Flask(__name__, static_url_path='/', static_folder='static', template_folder='templates')
 app.config.from_mapping(config)
 
 # Define other dependencies
@@ -29,7 +29,7 @@ def verification_bdd():
         mongo.server_info()
         print(f"Connexion réussi à MongoDB sur localhost:27017 !")
     except Exception:
-        print("Connexion échoué à MongoDB... Vérifiez les logs du Docker et redémarrez.")
+        print("Connexion à MongoDB échoué... Vérifiez les logs du Docker et redémarrez.")
         exit()
 
 @app.route('/')
@@ -37,10 +37,20 @@ def index():
     """Retourne la page d'accueuil du site"""
     if "USER" in session:
        # Utilisateur est connecté 
-        return render_template("accueil_soignant.html")
+        return render_template("accueil.html")
     
     # L'utilisateur n'est pas connecté, retour au login
     return render_template("login.html")
+
+@app.route('/dossiers/')
+def dossiers_patients():
+    """Affiche les dossiers des patients du département concerné"""
+    return render_template("dossiers.html")
+
+@app.route('/admin/')
+def portail_administration():
+    """Affiche la page d'administration de la structure hospitalière"""
+    return render_template("admin.html")
 
 @app.route('/api/stats/')
 @cache.cached(timeout=60)
