@@ -49,7 +49,7 @@ def logged_in():
     return render_template("views/accueil.html")
     
 @app.route('/dossiers/')
-def dossiers_patients():
+def liste_dossiers_patients():
     """Affiche les dossiers des patients du département concerné"""
     return render_template("views/liste_dossiers.html")
 
