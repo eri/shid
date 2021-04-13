@@ -1,14 +1,11 @@
-{% extends "default.html" %}
-
-{% block page_title %} Dossiers Patients {% endblock %} 
-
-{% block page_body %}
+{% extends "default.html" %} {% block page_title %} Dossiers Patients {%
+endblock %} {% block page_body %}
 
 <section class="text-gray-500 bg-white body-font">
   <div class="container px-1 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-6">
       <h1
-        class="sm:text-4xl text-3xl font-medium title-font mb-2 text-blue-900"
+        class="sm:text-4xl text-3xl font-medium title-font mb-2 text-green-900"
       >
         Espace Patients
       </h1>
@@ -21,18 +18,18 @@
         class="relative sm:mr-4 mb-4 sm:mb-0 flex-grow w-full"
         data-children-count="1"
       >
-        <label for="recherche" class="leading-7 text-sm text-blue-900">
-          Barre de Recherche
-        </label>
+        <label for="recherche" class="leading-7 text-sm text-green-900"
+          >Barre de Recherche</label
+        >
         <input
           type="recherche"
           id="recherche"
           name="recherche"
-          class="w-full bg-blue-100 border border-gray-600 focus:border-blue-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          class="w-full bg-green-100 border border-gray-600 focus:border-green-500 text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         />
       </div>
       <button
-        class="flex ml-auto text-white bg-blue-400 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600"
+        class="flex ml-auto text-white bg-green-900 border-0 py-2 px-6 focus:outline-none hover:bg-green-600"
       >
         Rechercher
       </button>
@@ -44,17 +41,17 @@
       <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
         <a href="./dossier.html">
           <div
-            class="h-full flex items-center border-blue-900 border-2 p-4 rounded-lg"
+            class="h-full flex items-center border-green-900 border-2 p-4 rounded-lg"
           >
             <img
               alt="challenge"
-              class="w-16 h-16 bg-blue-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
-              src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png"
+              class="w-16 h-16 bg-green-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
+              src="https://raw.githubusercontent.com/eri/shid/main/static/assets/default_profile_patient.png"
             />
             <div class="flex-grow">
-              <h2 class="text-blue-900 title-font font-medium">Nom Prénom</h2>
-              <p class="text-blue-900">Date entree</p>
-              <p class="text-blue-900">Activite</p>
+              <h2 class="text-green-900 title-font font-medium">Nom Prénom</h2>
+              <p class="text-green-900">Date entree</p>
+              <p class="text-green-900">Activite</p>
             </div>
           </div>
         </a>
@@ -62,17 +59,17 @@
       <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
         <a href="./dossier.html">
           <div
-            class="h-full flex items-center border-blue-900 border-2 p-4 rounded-lg"
+            class="h-full flex items-center border-green-900 border-2 p-4 rounded-lg"
           >
             <img
               alt="challenge"
-              class="w-16 h-16 bg-blue-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
-              src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png"
+              class="w-16 h-16 bg-green-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
+              src="https://raw.githubusercontent.com/eri/shid/main/static/assets/default_profile_patient.png"
             />
             <div class="flex-grow">
-              <h2 class="text-blue-900 title-font font-medium">Nom Prénom</h2>
-              <p class="text-blue-900">Date entree</p>
-              <p class="text-blue-900">Activite</p>
+              <h2 class="text-green-900 title-font font-medium">Nom Prénom</h2>
+              <p class="text-green-900">Date entree</p>
+              <p class="text-green-900">Activite</p>
             </div>
           </div>
         </a>
@@ -80,17 +77,17 @@
       <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
         <a href="./dossier.html">
           <div
-            class="h-full flex items-center border-blue-900 border-2 p-4 rounded-lg"
+            class="h-full flex items-center border-green-900 border-2 p-4 rounded-lg"
           >
             <img
               alt="challenge"
-              class="w-16 h-16 bg-blue-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
-              src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png"
+              class="w-16 h-16 bg-green-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
+              src="https://raw.githubusercontent.com/eri/shid/main/static/assets/default_profile_patient.png"
             />
             <div class="flex-grow">
-              <h2 class="text-blue-900 title-font font-medium">Nom Prénom</h2>
-              <p class="text-blue-900">Date entree</p>
-              <p class="text-blue-900">Activite</p>
+              <h2 class="text-green-900 title-font font-medium">Nom Prénom</h2>
+              <p class="text-green-900">Date entree</p>
+              <p class="text-green-900">Activite</p>
             </div>
           </div>
         </a>
@@ -98,7 +95,7 @@
     </div>
     <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto mb-10">
       <button
-        class="flex ml-auto text-white bg-blue-400 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600"
+        class="flex ml-auto text-white bg-green-900 border-0 py-2 px-6 focus:outline-none hover:bg-green-600"
       >
         Actualiser les données
       </button>
