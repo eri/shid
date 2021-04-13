@@ -33,24 +33,35 @@ def verification_bdd():
         exit()
 
 @app.route('/')
+@app.route('/login')
 def index():
     """Retourne la page d'accueuil du site"""
     if "USER" in session:
        # Utilisateur est connecté 
-        return render_template("accueil.html")
+        return render_template("views/accueil.html")
     
     # L'utilisateur n'est pas connecté, retour au login
-    return render_template("login.html")
+    return render_template("views/login.html")
 
+@app.route('/accueil/')
+def logged_in():
+    """Retourne la page d'accueuil du site"""
+    return render_template("views/accueil.html")
+    
 @app.route('/dossiers/')
 def dossiers_patients():
     """Affiche les dossiers des patients du département concerné"""
-    return render_template("dossiers.html")
+    return render_template("views/liste_dossiers.html")
+
+@app.route('/dossier/')
+def dossiers_patients():
+    """Affiche les dossiers des patients du département concerné"""
+    return render_template("views/dossier.html")
 
 @app.route('/admin/')
 def portail_administration():
     """Affiche la page d'administration de la structure hospitalière"""
-    return render_template("admin.html")
+    return render_template("views/admin.html")
 
 @app.route('/api/stats/')
 @cache.cached(timeout=60)
@@ -68,7 +79,7 @@ def stats():
                     "urgences" : urgences })
 
 @app.route('/api/search/<type>/<query>/')
-def stats(type, query):
+def search_db(type, query):
     """Recherche les patients et soignants par nom/prenom"""
     search = mongo['shid'][type].find({
             "$or": [
