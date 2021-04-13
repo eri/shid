@@ -21,16 +21,16 @@ app.config.from_mapping(config)
 cache = Cache(app)
 cache.init_app(app)
 
-@app.before_first_request
-def verification_bdd():
-    """Vérifie que la connexion à la base de données est établie"""
-    try:
-        mongo = pymongo.MongoClient("localhost", 27017, serverSelectionTimeoutMS=100)
-        mongo.server_info()
-        print(f"Connexion réussi à MongoDB sur localhost:27017 !")
-    except Exception:
-        print("Connexion à MongoDB échoué... Vérifiez les logs du Docker et redémarrez.")
-        exit()
+# @app.before_first_request
+# def verification_bdd():
+#     """Vérifie que la connexion à la base de données est établie"""
+#     try:
+#         mongo = pymongo.MongoClient("localhost", 27017, serverSelectionTimeoutMS=100)
+#         mongo.server_info()
+#         print(f"Connexion réussi à MongoDB sur localhost:27017 !")
+#     except Exception:
+#         print("Connexion à MongoDB échoué... Vérifiez les logs du Docker et redémarrez.")
+#         exit()
 
 @app.route('/')
 @app.route('/login')
