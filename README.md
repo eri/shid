@@ -19,11 +19,13 @@ While the applications are currently officially closed, our university requested
 
 ## Short description
 
-To respond to this call, us, a group of 4 students decided to create a small service (likely a prototype) which will be easily manageable and deployable (with Docker) to quickly deploy an infrastructure (server) for health/medical services with an intranet (website), database and API, without any.
+To respond to this call, us, a group of 4 students decided to create a small service (likely a prototype) which will be easily manageable and deployable (with Docker) to quickly deploy an infrastructure (server) for health/medical services with an intranet (website), database and API, without needing any special knowledge on development.
 
 ### Key features
 
 * **Ready-to-go.** Using Docker to deploy and configure all dependencies automatically
+* **User friendly startup.** You can easily configure your infrastructure directly from the UI
+* **Using real frameworks.** Frontend made with WindiCSS, powered by TailwindCSS's amazing features
 * **Real time stats.**  Select and display important/key values to be live-fetched with an API
 * **Patients management.** Add, create/edit/delete patients information with multiple privacy/permissions checks
 * **Organization.** Permissions presets, configurable permissions, manage multiple departments with an administration panel
