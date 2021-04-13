@@ -61,7 +61,7 @@ def liste_dossiers_patients():
 @app.route('/dossiers/nouveau/')
 def nouveau_dossier_patient():
     """Crée un nouveau dossier pour un patient"""
-    return render_template("views/liste_dossiers.html")
+    return render_template("views/ajout_dossiers.html")
 
 @app.route('/dossier/')
 def dossier_patient():
