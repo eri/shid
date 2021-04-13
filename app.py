@@ -47,16 +47,31 @@ def index():
 def logged_in():
     """Retourne la page d'accueuil du site"""
     return render_template("views/accueil.html")
+
+@app.route('/profil/')
+def profil():
+    """Retourne la page d'accueuil du site"""
+    return render_template("views/profil.html")
     
 @app.route('/dossiers/')
 def liste_dossiers_patients():
     """Affiche les dossiers des patients du département concerné"""
     return render_template("views/liste_dossiers.html")
 
+@app.route('/dossiers/nouveau/')
+def nouveau_dossier_patient():
+    """Crée un nouveau dossier pour un patient"""
+    return render_template("views/liste_dossiers.html")
+
 @app.route('/dossier/')
-def dossiers_patients():
-    """Affiche les dossiers des patients du département concerné"""
+def dossier_patient():
+    """Affiche un dossier patient en particulier"""
     return render_template("views/dossier.html")
+
+@app.route('/personnels/')
+def liste_personnels():
+    """Affiche la liste des personnels du département concerné"""
+    return render_template("views/liste_personnel.html")
 
 @app.route('/admin/')
 def portail_administration():
