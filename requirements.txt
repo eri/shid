@@ -1,5 +1,5 @@
-Flask==1.0.2
-pymongo==3.10.1
 Werkzeug==1.0.1
+pymongo==3.10.1
 requests==2.23.0
 Flask_Caching==1.9.0
+Flask==1.0.2
