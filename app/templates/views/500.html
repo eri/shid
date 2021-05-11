@@ -1,0 +1,31 @@
+{% extends "default.html" %}
+
+{% block page_title %} Nouveau dossier {% endblock %} 
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
+>
+
+  <div class="mt-2">
+    <div class="text-9xl font-semibold text-blue-900">
+        500
+    </div>
+    <div class="ml-2 text-4xl font-semibold text-blue-900">
+        Non autorisé
+        <div class="text-xl font-normal">
+            Vous ne disposez pas les permissions nécéssaires pour consulter cette page.
+        </div>
+    </div>
+    <div class="ml-2 mt-4">
+        <a
+        href="{{ url_for('index') }}"
+        class="py-1 justify-items-auto font-semibold rounded-md text-gray-100 bg-blue-900 no-underline">
+            <span class="my-auto w-full px-2">Retour à l'accueuil</span>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
