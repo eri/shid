@@ -1,0 +1,243 @@
+{% extends "default.html" %}
+
+{% block page_title %} Affichage dossier {%endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-24 px-5 mx-auto md:flex-row"
+>
+
+  <div class="flex flex-wrap w-full overflow-hidden">
+
+    <div class="w-1/4 p-4 bg-green-700 overflow-hidden text-gray-100 border-white border-3">
+      <img
+      class="w-40 rounded-md"
+      src="{{ url_for('static', filename='./assets/default_profile_patient.png') }}"
+      >
+      
+      <div class="my-2 text-xl font-bold">
+        {{ d.patient.nom }} {{ d.patient.prenom }}
+      </div>
+
+      <div class="my-4 text-md font-normal">
+        <span class="font-semibold">Sexe:</span> {{ d.patient.sexe.capitalize() }}<br>
+        <span class="font-semibold">Date de naissance:</span> {{ d.patient.date_naissance }}<br>
+        <span class="font-semibold">Sécurité sociale n°</span> {{ d.patient.numero_ss }}<br>
+
+      </div>
+
+      <div class="my-4 text-md font-normal">
+        <span class="font-semibold">Date d'entrée:</span> {{ d.dossier.date }}<br>
+        <span class="font-semibold">Date d'enregistrement:</span> {{ d.patient.date_enregistrement }}<br>
+
+      </div>
+
+    </div>
+
+    <div class="w-9/12 p-8 overflow-hidden text-green-700">
+
+      <div class="my-2 text-3xl font-bold">
+        Dossier n° {{ d.dossier.id }}
+      </div>
+
+      <div class="py-1 justify-items-auto font-semibold inline-flex rounded-md space-x-2 bg-orange-500 text-gray-100 block">
+        <span class="my-auto px-2">Ajouter un évènement</span>
+      </div>
+
+      <div class="py-1 justify-items-auto font-semibold inline-flex rounded-md space-x-2 bg-red-500 text-gray-100 block">
+        <span class="my-auto px-2">Supprimer le dossier</span>
+      </div>
+
+      <div class="flex w-full my-4 flex-wrap overflow-hidden">
+
+        <div class="w-1/2 overflow-hidden">
+          <div class="my-2 text-md">
+            <div class="mb-1 text-lg font-semibold">
+              Personnels assignés
+            </div>
+  
+            {% for p in d.personnels %}
+            <div class="py-1 justify-items-auto font-semibold inline-flex rounded-md space-x-2 text-gray-100 bg-green-500">
+              <div class="ml-2 w-3 h-3 bg-gray-100 rounded-full inline-flex my-auto"></div>
+              <span class="my-auto px-2">{{ p.nom }} {{ p.prenom }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      
+        <div class="w-1/2 overflow-hidden">
+          <div class="my-2 text-md">
+            <div class="mb-1 text-lg font-semibold">
+              Départements assignés
+            </div>
+
+            {% for d in d.departements %}
+            <div class="py-1 justify-items-auto font-semibold inline-flex rounded-md space-x-2 text-gray-100 bg-green-500 ">
+              <div class="ml-2 w-3 h-3 bg-gray-100 rounded-full inline-flex my-auto"></div>
+              <span class="my-auto px-2">{{ d.nom }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      
+      </div>
+
+      <div class="mb-1 text-lg font-semibold">
+        Historique de dossier
+      </div>
+
+      <div class="text-blue-900 font-normal space-y-1">
+
+        {% for h in d.historique %}
+        <div class="flex flex-wrap overflow-hidden bg-green-800 text-gray-100">
+          <div class="w-auto mx-3 overflow-hidden">
+            ID {{ h.id }}
+          </div>
+        
+          <div class="w-auto mx-3 overflow-hidden">
+            {{ h.date }}
+          </div>
+        
+          <div class="w-1/5 mx-3 overflow-hidden">
+            {{ resolve_departement(h.departement).nom }}
+          </div>
+        
+          <div class="w-2/5 overflow-hidden">
+            {{ h.description }}
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+
+    </div>
+
+  </div>
+    
+
+</div>
+
+{% endblock %}
+
+
+<!-- <section class="text-blue-900 bg-white body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="text-center">
+      <h1
+        class="sm:text-4xl text-3xl font-medium title-font mb-2 text-green-900"
+      >
+        Dossier Numero
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="text-green-900 bg-white body-font">
+  <div
+    class="container mx-auto flex md:flex-row flex-col items-center border-green-900"
+  >
+    <img
+      alt="challenge"
+      class="w-32 h-32 m-5 bg-green-900 object-contain object-center flex-shrink-0 rounded-full mr-4"
+      src="https://raw.githubusercontent.com/eri/shid/main/static/assets/default_profile_patient.png"
+    />
+    <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900">
+      Eray Ozdemir
+    </h1>
+  </div>
+  <div
+    class="container mx-auto flex md:flex-row flex-col items-center border-green-900 border-2 rounded-lg"
+  ></div>
+  <div
+    class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center border-green-900"
+  >
+    <div
+      class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+    >
+      <h1
+        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900"
+      >
+        Date de Naissance :
+      </h1>
+      <p class="mt-2 text-green-600 mb-2 text-2xl w-full font-medium">
+        31/01/01
+      </p>
+    </div>
+    <div
+      class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+    >
+      <h1
+        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900"
+      >
+        Numéro de Sécurité Sociale :
+      </h1>
+      <p class="mt-2 text-green-600 mb-2 text-2xl w-full font-medium">
+        95859955959
+      </p>
+    </div>
+  </div>
+  <div
+    class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center border-green-900"
+  >
+    <div
+      class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+    >
+      <h1
+        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900"
+      >
+        Civilité :
+      </h1>
+      <p class="mt-2 text-green-600 mb-8 text-2xl w-full font-medium">
+        Francais
+      </p>
+    </div>
+    <div
+      class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+    >
+      <h1
+        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900"
+      >
+        Date d'entrée :
+      </h1>
+      <p class="mt-2 text-green-600 mb-8 text-2xl w-full font-medium">
+        06/04/21
+      </p>
+    </div>
+  </div>
+  <div
+    class="container mx-auto flex md:flex-row flex-col items-center border-green-900 border-2 rounded-lg"
+  ></div>
+  <div
+    class="container mx-auto flex px-5 py-20 md:flex-row flex-col items-center border-green-900"
+  >
+    <div
+      class="lg:flex-grow lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+    >
+      <h1
+        class="title-font sm:text-4xl text-3xl mb-4 font-medium text-green-900"
+      >
+        Historique :
+      </h1>
+      <p class="mt-2 text-green-600 mb-2 text-1xl w-full font-medium">
+        -Manger son Doigt
+      </p>
+      <p class="mt-2 text-green-600 mb-2 text-1xl w-full font-medium">
+        -Deux Balles dans le dos
+      </p>
+    </div>
+  </div>
+  <div
+    class="container mx-auto flex px-5 py-2 md:flex-row flex-col items-center"
+  >
+    <div
+      class="lg:flex-grow lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-5 md:mb-0 items-center text-center"
+    >
+      <a
+        class="inline-flex text-white bg-green-900 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 text-lg"
+        >Revenir
+      </a>
+    </div>
+  </div>
+</section> -->

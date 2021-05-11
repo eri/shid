@@ -1,0 +1,173 @@
+{% extends "default.html" %}
+
+{% block page_title %} Nouveau dossier {% endblock %} 
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-24 px-5 mx-auto md:flex-row"
+>
+
+  <div class="mt-2">
+    <div class="text-4xl font-semibold text-blue-900">
+        Création d'un nouveau dossier
+    </div>
+
+    <div class="mb-4 mt-8 text-2xl font-semibold text-blue-900">
+      Patient déjà enregistré ?
+      <div class="text-lg font-normal">
+          Vérifiez si le patient est déjà venu dans cet établissement pour préremplir les données.<br>
+          Renseignez le numéro de sécurité sociale (espaces inclus) puis cliquez sur vérifier.
+      </div>
+    </div>
+    
+    <div class="flex flex-wrap overflow-hidden mb-6">
+
+      <div class="w-1/4 overflow-hidden">
+        <input type="text" placeholder="1 23 456 789 01" class="w-80 p-2 border-blue-900 border">
+      </div>
+    
+      <div class="w-1/4 overflow-hidden">
+        <a
+          href="#"
+          id="verif-patient"
+          class="p-2 my-auto text-lg font-normal bg-blue-900 border-blue-900 border text-gray-100 no-underline">
+            Vérifier
+        </a>
+      </div>
+    
+    </div>
+
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Identification
+      <div class="text-sm font-normal">
+        Nous utiliserons ces informations afin d'identifier le patient.
+      </div>
+    </div>
+
+    <div class="flex flex-row mb-2 space-x-2">
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Nom
+          </div>
+          <input type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Prénom
+          </div>
+          <input type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row mb-2 space-x-2">
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Date de naissance
+        </div>
+        <input type="date" class="w-60 p-1.25 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Numéro de sécurité sociale
+        </div>
+        <input type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+
+    </div>
+
+
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Coordonnées
+      <div class="text-sm font-normal">
+        Données essentielles permettant de contacter le patient ou sa/ses responsables légal/légaux pendant son séjour.
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row space-x-2">
+      <div class="1/2">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Adresse
+          </div>
+          <input type="text" class="w-100 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Code postal
+          </div>
+          <input type="text" class="w-30 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Ville
+        </div>
+        <input type="text" class="w-50 p-2 border-blue-900 border-2">
+      </div>
+
+    </div>
+
+    <div class="flex flex-wrap flex-row mb-2 space-x-2">
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Numéro de téléphone
+        </div>
+        <input type="tel" class="w-60 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Adresse email
+        </div>
+        <input type="email" class="w-60 p-2 border-blue-900 border-2">
+      </div>
+
+    </div>
+      
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Informations
+      <div class="text-sm font-normal">
+        Données relatives à la création du dossier.
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row space-x-2">
+      <div class="1/2">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Département
+              <div class="text-sm font-normal">
+                Ce champ est systématiquement prérempli.
+              </div>
+          </div>
+          <input type="text" class="w-70 p-2 border-blue-900 border-2" disabled>
+      </div>
+
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Personnel
+              <div class="text-sm font-normal">
+                Ce champ est systématiquement prérempli.
+              </div>
+          </div>
+          <input type="text" pattern="3" class="w-70 p-2 border-blue-900 border-2" disabled>
+      </div>
+
+    </div>
+
+    <div class="1/5">
+      <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+          Motif de création de dossier
+      </div>
+      <textarea cols="20" type="text" class="w-150 border-blue-900 border-2"></textarea>
+    </div>
+
+  </div> <!-- mt-2 -->
+
+
+</div>
+{% endblock %}
