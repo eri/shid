@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/windicss-runtime-dom"></script>
+    <title>{% block page_title %} shid.eri.gg {% endblock %} - SHID </title>
+  </head>
+
+  <body class="block" hidden>
+    {% block page_navbar %}
+    {% include "components/navbar.html" %}
+    {% endblock %}
+
+    {% block page_body %} {% endblock %}
+  </body>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  {% block page_scripts %} {% endblock %}
+</html>
