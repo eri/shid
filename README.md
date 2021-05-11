@@ -29,5 +29,30 @@ To respond to this call, us, a group of 4 students decided to create a small ser
 * **Real time stats.**  Select and display important/key values to be live-fetched with an API
 * **Patients management.** Add, create/edit/delete patients information with multiple privacy/permissions checks
 * **Organization.** Permissions presets, configurable permissions, manage multiple departments with an administration panel
+
+### Installation
+1. Clone this repository. `git clone https://github.com/eri/shid.git`
+2. Install Docker Compose.
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+
+> If this command fails, you would try alternative methods which are referenced [here](https://docs.docker.com/compose/install/#alternative-install-options).
+
+3. Check if docker-compose is installed properly. `docker-compose --version`
+4. Create new images and containers by using the config from the `/Dockerfiles` directory. `sudo docker-compose up -d`
+
+> If your Flask container is stopped after the end of this step and/or have a `No such files or directory` error:
+>
+> - Consider renaming your `app` folder as `.app`
+> - Delete your containers and images 
+> - Run the `sudo docker-compose up -d` command again.
+
+5. The website should be now accessible from `your_ip:5000` (ex: `55.12.455.52:5000`) and MongoDB must be available at the port `27017`. Consider updating the ports from the `docker-compose.yml` file to keep things secure.
+
+
+### Planned
 * **Work routine tool.** See and manage your recent activities, personal notes and daily/weekly/monthly planning
 * **Real-time messaging.** Messaging between workers and other health departments, to stay connected without using third party platforms
