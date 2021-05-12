@@ -55,7 +55,7 @@ def verification_bdd():
         col_soignants = db['soignants']
         col_departements = db['departements']
         col_roles = db['roles']
-        col_structure = db['roles']
+        col_structure = db['structure']
         
         print("Base de données et collection crée!")
 
@@ -67,9 +67,9 @@ def verification_bdd():
 @app.route("/accueil/")
 def index():
     """Retourne la page d'accueuil du site"""
-    if not pymongo.MongoClient("mongodb://mongodb:27017")['shid']:
+    if pymongo.MongoClient("mongodb://mongodb:27017")['shid']['structure'].find({}).count() == 0:
         return render_template("views/setup.html")
-        
+
     if "USER" in session:
         # Utilisateur est connecté
         return render_template("views/accueil.html")
@@ -145,15 +145,15 @@ def portail_administration():
     """Affiche la page d'administration de la structure hospitalière"""
     return render_template("views/admin.html", **{'data':data})
 
-@app.route("/admin/departement/<name>/")
-def page_departement(name):
-    """Affiche la page de gestion d'un département"""
-    return render_template("views/admin.html")
+# @app.route("/admin/departement/<name>/")
+# def page_departement(name):
+#     """Affiche la page de gestion d'un département"""
+#     return render_template("views/admin.html")
 
-@app.route("/admin/role/<name>/")
-def page_role(name):
-    """Affiche la page de gestion d'un role"""
-    return render_template("views/admin.html")
+# @app.route("/admin/role/<name>/")
+# def page_role(name):
+#     """Affiche la page de gestion d'un role"""
+#     return render_template("views/admin.html")
 
 @app.route("/github/")
 def github():

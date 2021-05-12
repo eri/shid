@@ -1,7 +1,56 @@
-{% extends "default.html" %} {% block page_title %} Dossiers Patients {%
-endblock %} {% block page_body %}
+{% extends "default.html" %}
 
-<section class="text-gray-500 bg-white body-font">
+{% block page_title %} Dossiers Patients {% endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-wrap py-10 px-5 mx-auto md:flex-row"
+>
+  
+<div class="text-4xl font-medium text-blue-900 w-full">
+  Portail d'administration
+</div>
+
+
+<div class="flex flex-wrap -mx-1 w-full">
+
+  <div class="my-4 px-1 w-full">
+
+    <div class="inline-flex justify-between w-full border-b-3 border-blue-900">
+      <!-- Titre de section Départements -->
+        <div class="text-2xl font-medium text-blue-900">
+          Dossiers patients
+          <div class="text-sm mb-2">
+            Recherchez dans la liste les dossiers par identifiant ou nom de patient.
+          </div>
+        </div>
+        <a href="#" class="my-auto text-blue-900 ">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--mdi" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M19 6V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v1h-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v1H3v14h10.09a5.47 5.47 0 0 1-.09-1a6 6 0 0 1 8-5.66V6m-1 9v3h3v2h-3v3h-2v-3h-3v-2h3v-3z" fill="currentColor"></path></svg>
+        </a>
+      <!-- Fin de titre de section Départements -->
+    </div>
+
+    <div class="flex flex-wrap w-full mt-2 overflow-hidden">
+      <!-- Case de département -->
+      {% for d in data.DEPARTEMENTS %}
+      <div class="w-1/4 border-white border-3 rounded-sm bg-blue-200 inline-flex overflow-hidden">
+        {% include 'icons/departements/default.svg' %}
+        <div class="my-auto mr-2 text-blue-900 font-semibold text-xl truncate">
+          {{ d.nom }}
+          <div class="mt-1.5 space-x-2">
+            <a href="#" class="rounded-sm no-underline bg-blue-900 text-gray-100 text-sm py-1 px-5"> Gérer </a>
+            <a href="#" class="rounded-sm no-underline bg-blue-900 text-gray-100 text-sm py-1 px-5"> Supprimer </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- Fin de case département -->
+    </div>
+
+{% endblock %}
+
+<!-- <section class="text-gray-500 bg-white body-font">
   <div class="container px-1 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-6">
       <h1
@@ -101,6 +150,4 @@ endblock %} {% block page_body %}
       </button>
     </div>
   </div>
-</section>
-
-{% endblock %}
+</section> -->
