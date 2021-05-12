@@ -16,16 +16,17 @@
       class="flex items-center order-first mb-4 font-medium text-gray-900 lg:order-none lg:w-1/5 title-font lg:items-center lg:justify-center md:mb-0"
     >
 
-
-
     </a>
-    <div class="inline-flex ml-5 lg:w-2/5 lg:justify-end lg:ml-0">
-      <a
-        href="#"
+    <div class="inline-flex ml-5 lg:w-2/5 lg:justify-end lg:ml-0 cursor-not-allowed">
+      <div
         class="inline-flex items-center px-2.5 py-1 mt-4 text-base bg-blue-800 bg-opacity-10 border-0 rounded no-underline font-semibold text-blue-900 hover:text-blue-700 md:mt-0"
       >
+        {% if session_user %}
+        {{ session_user().nom }} {{ session_user().prenom }}
+        {% else %}
         Connexion
-    </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </header>

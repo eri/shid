@@ -3,29 +3,52 @@
 {% block page_title %} Accueil soignants {% endblock %} 
 
 {% block page_body %}
+<div
+class="container flex flex-wrap py-10 px-5 mx-auto md:flex-row"
+>
 
-<div class="text-center mx-auto my-8">
-  <p class="text-xl text-blue-900">Structure hospitalière</p>
-  <h1 class="text-2xl font-bold text-blue-900">LARIBOISIÈRE</h1>
-  <p class="text-sm text-blue-900">75010 Paris</p>
-</div>
+  <div class="text-center w-full mx-auto my-4">
+    <div class="text-xl text-blue-900">Structure hospitalière</div>
+    <div class="text-2xl font-bold text-blue-900">{{ get_data().structure().nom_structure }}</div>
+    <div class="text-sm text-blue-900">{{ get_data().structure().cp_structure }} {{ get_data().structure().ville_structure }}</div>
+  </div>
 
-{% include "components/stats.html" %}
+  {% include "components/stats.html" %}
 
-<div class="lg:mx-28 my-8 lg:w-1/5 rounded-lg">
-  <div class="flex">
-    <img
-      class="bg-blue-600 my-auto mx-4 w-12 h-12 object-cover object-center flex-shrink-0 rounded-full"
-      src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png"
-    />
-    <div class="whitespace-nowrap my-auto">
-      <h1 class="text-xl font-semibold text-blue-900">PIERRE DUPONT</h1>
-      <p class="text-sm text-blue-900">Médecin urgentiste</p>
+  <div class="my-8 lg:w-1/5 rounded-lg">
+    <div class="flex">
+      <img
+        class="bg-blue-600 my-auto mx-4 w-12 h-12 object-cover object-center flex-shrink-0 rounded-full"
+        src="https://cdn.discordapp.com/attachments/795652759302701126/818868001423097906/default_profile.png"
+      />
+      <div class="whitespace-nowrap my-auto">
+        <div class="text-xl font-semibold text-blue-900">{{ session_user().nom }} {{ session_user().prenom }}</div>
+        <div class="text-sm text-blue-900">{{ get_data().get_departement(session_user().departements[0]).nom }}</div>
+      </div>
     </div>
   </div>
+
+  <div class="flex flex-wrap w-full my-2 overflow-hidden">
+
+    <a href="{{ url_for('portail_administration') }}" class="w-1/5 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden no-underline">
+      <div class="p-2 text-blue-900 font-semibold text-center text-xl">Portail administrateur</div>
+    </a>
+
+    <a href="{{ url_for('liste_dossiers_patients') }}" class="w-1/5 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden no-underline">
+      <div class="p-2 text-blue-900 font-semibold text-center text-xl">Liste dossiers</div>
+    </a>
+
+    <a href="{{ url_for('liste_personnels') }}" class="w-1/5 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden no-underline">
+      <div class="p-2 text-blue-900 font-semibold text-center text-xl">Liste soignants</div>
+    </a>
+
+  </div>
+
 </div>
 
-<section class="text-gray-600 body-font overflow-hidden">
+{% endblock %}
+
+<!-- <section class="text-gray-600 body-font overflow-hidden">
   <div class="container lg:px-32 px-4 py-4 mx-auto">
     <div class="flex flex-wrap -m-4">
       <div class="p-4 xl:w-1/2 md:w-1/2 w-full">
@@ -94,6 +117,4 @@
       </div>
     </div>
   </div>
-</section>
-
-{% endblock %}
+</section> -->
