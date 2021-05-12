@@ -5,8 +5,10 @@ import pymongo
 
 def dernier_id(collection):
     """Retourne le dernier identifiant pour la collection sélectionnée"""
-    query = mongo.find_sorted('shid', collection, {}, {"k": "id", "o": pymongo.DESCENDING})[0]
-    identifiant = int(query['id'])+1
+    query = mongo.find_sorted('shid', collection, {}, {"k": "id", "o": pymongo.DESCENDING})
+    if query.count() == 0:
+        return "0001"
+    identifiant = int(query[0]['id'])+1
     return f"000{identifiant}"
 
 def generer_identifiant(nom, prenom):
