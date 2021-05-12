@@ -1,0 +1,154 @@
+{% extends "default.html" %}
+
+{% block page_title %} Nouveau dossier {% endblock %} 
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-10 px-5 mx-auto md:flex-row"
+>
+
+  <div class="mt-2">
+    <div class="text-4xl font-semibold text-blue-900">
+        Ajouter un personnel soignant
+    </div>
+
+    <div id="confirmMessage" class="text-sm my-4 p-2 font-semibold bg-green-700 text-gray-100 hidden">
+      Compte crée avec succès.
+    </div>
+
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Identité
+      <div class="text-sm font-normal">
+        Nous utiliserons ces informations afin d'identifier le personnel.
+      </div>
+    </div>
+
+    <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+      Sexe
+  </div>
+  <div class="flex inline-flex space-x-3 text-blue-900">
+      <div>
+          <input type="radio" id="masculin" value="case 1">
+          <label for="case1">Masculin</label>
+      </div>
+    
+      <div>
+          <input type="radio" id="feminin" value="case 2">
+          <label for="case2">Féminin</label>
+      </div>
+
+  </div>
+
+    <div class="flex flex-row mb-2 space-x-2">
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Nom
+          </div>
+          <input id="nom" type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Prénom
+          </div>
+          <input id="prenom" type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row mb-2 space-x-2">
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Date de naissance
+        </div>
+        <input id="date_naissance" type="date" class="w-60 p-1.25 border-blue-900 border-2">
+      </div>
+
+      <div class="1/5">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Numéro de sécurité sociale
+        </div>
+        <input id="numero_ss" type="text" class="w-70 p-2 border-blue-900 border-2">
+      </div>
+
+    </div>
+
+
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Coordonnées
+      <div class="text-sm font-normal">
+        Données essentielles permettant de contacter le personnel, notamment lors de l'activation de la session.
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row mb-2 space-x-2">
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Numéro de téléphone
+        </div>
+        <input id="numero_telephone" type="text" class="w-60 p-2 border-blue-900 border-2">
+      </div>
+
+      <div class="1/3">
+        <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+            Adresse email
+        </div>
+        <input id="adresse_email" type="email" class="w-60 p-2 border-blue-900 border-2">
+      </div>
+
+    </div>
+      
+    <div class="text-2xl mt-5 font-semibold text-blue-900">
+      Poste
+      <div class="text-sm font-normal">
+        Département et rôles dans lequel le personnel sera assigné.
+      </div>
+    </div>
+
+    <div class="flex flex-wrap flex-row space-x-2">
+      <div class="1/2">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Département
+          </div>
+          <select id="departement" name=departement class="w-70 p-2 border-blue-900 border-2">
+            <option value="">Sélectionner</option>
+            {% for d in resolve_all_departements() %}
+            <option value="{{ d.id }}">{{ d.nom }}</option>
+            {% endfor %}
+          </select>
+      </div>
+
+      <div class="1/5">
+          <div class="mb-1 mt-3 text-lg font-semibold text-blue-900">
+              Rôle
+          </div>
+          <select id="role" name=role class="w-70 p-2 border-blue-900 border-2">
+            <option value="">Sélectionner</option>
+            {% for d in resolve_all_roles() %}
+            <option value="{{ d.id }}">{{ d.nom }}</option>
+            {% endfor %}
+          </select>
+      </div>
+
+    </div>
+
+    <div class="ml-0.5 w-9/12 my-8">
+      <a
+      href="#"
+      id="valider"
+      class="py-1.5 px-5 rounded-sm text-lg font-semibold bg-blue-900 text-gray-100 no-underline">
+          Valider
+      </a>
+    </div>
+
+  </div> 
+
+
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='./js/register.js') }}"></script>
+{% endblock %}
