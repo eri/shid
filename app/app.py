@@ -41,21 +41,35 @@ app.config.from_mapping(config)
 # cache = Cache(app)
 # cache.init_app(app)
 
-# @app.before_first_request
-# def verification_bdd():
-#     """Vérifie que la connexion à la base de données est établie"""
-#     try:
-#         mongo_client = pymongo.MongoClient("mongodb://mongodb:27017")
-#         mongo_client.server_info()
-#         print("Connexion réussi à MongoDB sur localhost:27017 !")
-#     except Exception as e:
-#         print(f"Connexion à MongoDB échoué... Erreur: `{e}`")
+@app.before_first_request
+def verification_bdd():
+    """Vérifie que la connexion à la base de données est établie"""
+    try:
+        mongo_client = pymongo.MongoClient("mongodb://mongodb:27017")
+        mongo_client.server_info()
+        print("Connexion réussi à MongoDB sur localhost:27017 !")
+        
+        print("Création de la base de donnée et des collections...")
+        db = mongo_client["shid"]
+        col_patients = db['patients']
+        col_soignants = db['soignants']
+        col_departements = db['departements']
+        col_roles = db['roles']
+        col_structure = db['roles']
+        
+        print("Base de données et collection crée!")
+
+    except Exception as e:
+        print(f"Connexion à MongoDB échoué... Erreur: `{e}`")
 
 @app.route("/")
 @app.route("/login/")
 @app.route("/accueil/")
 def index():
     """Retourne la page d'accueuil du site"""
+    if not pymongo.MongoClient("mongodb://mongodb:27017")['shid']:
+        return render_template("views/setup.html")
+        
     if "USER" in session:
         # Utilisateur est connecté
         return render_template("views/accueil.html")
