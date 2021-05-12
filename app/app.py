@@ -28,6 +28,9 @@ config = {
     "CACHE_TYPE": "simple",  # Flask cache - type
     "CACHE_DEFAULT_TIMEOUT": 200,  # Flask cache - default cache expire timeout
     "TEMPLATES_AUTO_RELOAD": True,  # Auto reload Flask
+    "SECRET_KEY": "".join(
+        [random.choice(string.ascii_letters + string.digits) for n in range(50)]
+    )
 }
 
 # Define the Flask Application
@@ -38,15 +41,15 @@ app.config.from_mapping(config)
 # cache = Cache(app)
 # cache.init_app(app)
 
-@app.before_first_request
-def verification_bdd():
-    """Vérifie que la connexion à la base de données est établie"""
-    try:
-        mongo_client = pymongo.MongoClient("mongodb://mongodb:27017")
-        mongo_client.server_info()
-        print("Connexion réussi à MongoDB sur localhost:27017 !")
-    except Exception as e:
-        webhook.send(f"Connexion à MongoDB échoué... Erreur: `{e}`")
+# @app.before_first_request
+# def verification_bdd():
+#     """Vérifie que la connexion à la base de données est établie"""
+#     try:
+#         mongo_client = pymongo.MongoClient("mongodb://mongodb:27017")
+#         mongo_client.server_info()
+#         print("Connexion réussi à MongoDB sur localhost:27017 !")
+#     except Exception as e:
+#         print(f"Connexion à MongoDB échoué... Erreur: `{e}`")
 
 @app.route("/")
 @app.route("/login")
@@ -122,6 +125,11 @@ def liste_personnels():
     """Affiche la liste des personnels du département concerné"""
     return render_template("views/liste_personnel.html")
 
+@app.route("/admin/personnels/nouveau")
+def ajout_personnel():
+    """Ajouter un personnel dans la base de données"""
+    return render_template("views/ajout_personnel.html")
+
 
 @app.route("/admin/")
 def portail_administration():
@@ -143,21 +151,26 @@ def github():
     """Retourne la page d'accueuil du site"""
     return redirect("https://github.com/eri/shid")
 
-@app.route("/api/login/")
+@app.route("/api/auth/login/")
 def login():
     """Authentifie un utilisateur et crée une session"""
-    identifiant = str(request.form["identifiant"]).strip()
-    mdp = request.form["motdepasse"]
+    identifiant = str(request.args.get('username')).strip()
+    mdp = str(request.args.get('password')).strip()
+    
+    try:
+        user_db = mongo.find("shid", "soignants", {"nom_utilisateur": identifiant})
+    except Exception as e:
+        return jsonify(
+            {"success": False, "error": f"Erreur interne. Veuillez réessayer dans quelques minutes. Si cela persiste, contactez l'administrateur de votre structure. Reférence: {e}"}
+        )       
 
-    user_db = mongo.find("shid", "soignants", {"identifiant": identifiant})
-
-    if not user_db or user_db.count() <= 0:
+    if not user_db:
         # L'utilisateur n'existe pas
         return jsonify(
             {"success": False, "error": "Identifiant invalide ou n'existe pas."}
         )
 
-    if check_password_hash(user_db["password"], mdp):
+    if check_password_hash(user_db[0]["mot_passe"], mdp):
         # On vérifie si le hash du mot de passe enregistré en BDD
         # corresponds avec le mot de passe en clair en toute sécurité
         session["USER"] = identifiant
@@ -170,39 +183,47 @@ def login():
     )
 
 
-@app.route("/api/register/")
+@app.route("/api/auth/register/")
 def register():
     """Enregistre un utilisateur dans la base de données"""
+    nom = str(request.args.get('nom')).strip()
+    prenom = str(request.args.get('prenom')).strip()
+    departement = str(request.args.get('departement')).strip()
+    role = str(request.args.get('role')).strip()
 
-    sexe = str(request.form["sexe"]).strip()
-    nom = str(request.form["nom"]).strip()
-    prenom = str(request.form["prenom"]).strip()
-    identifiant = check.generer_identifiant(nom, prenom)
     mdp = "".join(
         [random.choice(string.ascii_letters + string.digits) for n in range(12)]
     )
     date_naissance = datetime.datetime.strptime(
-        str(request.form["date_naissance"]).strip(), "%d/%m/%Y"
+        str(request.args.get('date_naissance')).strip(), "%Y-%m-%d"
     )
 
     data = {
-        "sexe": sexe,
+        "id": check.dernier_id("soignants"),
+        "sexe": str(request.args.get('sexe')).strip(),
         "nom": nom,
         "prenom": prenom,
-        "identifiant": identifiant,
-        "password": generate_password_hash(mdp),
+        "nom_utilisateur": check.generer_identifiant(nom, prenom),
+        "mot_passe": generate_password_hash(mdp),
+        "roles": [f"{role}"],
+        "departements": [f"{departement}"],
         "date_naissance": date_naissance,
+        "date_enregistrement": datetime.datetime.now(),
+        "numero_ss": str(request.args.get('numero_ss')).strip(),
+        "adresse_email": str(request.args.get('adresse_email')).strip()
     }
+
     try:
         user_db = mongo.insert_one("shid", "soignants", data)
         return jsonify(
-            {"success": True, "message": "Compte crée avec succès.", "data": user_db}
+            {"success": True,
+            "message": f"Compte crée avec succès. Le nom d'utilisateur est <b>{data['nom_utilisateur']}</b> et le mot de passe généré est <b>{mdp}</b>. Veillez à bien le noter, il ne sera plus possible de le récupérer ulterieurement."}
         )
-    except Exception:
+    except Exception as e:
         return jsonify(
             {
                 "success": False,
-                "error": "Erreur survenue lors de la création du compte.",
+                "error": f"Erreur survenue lors de la création du compte. {e}",
             }
         )
 
@@ -252,10 +273,33 @@ def search_db(type, query):
 
 @app.context_processor
 def checkers():
+    def active_session():
+        return True if "USER" in session else False
+
+    def session_user():
+        if not "USER" in session: return False
+        return data.get_soignant_by_username(session['USER'])
+
     def resolve_departement(id):
         return data.get_departement(id)
 
-    return dict(resolve_departement=resolve_departement)
+    def resolve_all_departements():
+        return data.get_all_departements()
+
+    def resolve_all_roles():
+        return data.get_all_roles()
+
+    def get_data():
+        return data
+
+    return dict(
+        active_session=active_session,
+        session_user=session_user,
+        resolve_departement=resolve_departement,
+        get_data=get_data,
+        resolve_all_departements=resolve_all_departements,
+        resolve_all_roles=resolve_all_roles
+        )
 
 
 if __name__ == "__main__":
