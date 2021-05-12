@@ -19,6 +19,17 @@
             Merci d'avoir choisi SHID, plateforme de déploiement rapide de structure hospitalière.<br>
             Nous allons vous poser quelques questions simples avant de déployer pleinement l'infrastructure.
         </div>
+        <div id="confirmMessage" class="text-lg my-4 p-2 font-semibold bg-green-600 text-gray-100 hidden">
+            Setup avec succès.
+        </div>
+        <div id="redirectLogin" class="mt-5 hidden">
+            <a
+            href="/login"
+            id="redirect_login"
+            class="py-1.5 px-5 rounded-sm text-lg font-semibold bg-green-900 text-gray-100 no-underline">
+                Se connecter
+            </a>
+        </div>
     </div>
 
     <div id="setup-1" class="mt-10 block">
@@ -31,44 +42,39 @@
         </div>
         <div class="flex inline-flex space-x-3 text-blue-900">
             <div>
-                <input type="radio" id="case1" name="groupe1" value="case 1" checked>
+                <input type="radio" id="type_hôpital" name="typestructure" value="hôpital" checked>
                 <label for="case1">Hôpital</label>
             </div>
           
             <div>
-                <input type="radio" id="case2" name="groupe1" value="case 2">
+                <input type="radio" id="type_clinique" name="typestructure" value="clinique">
                 <label for="case2">Clinique</label>
-            </div>
-          
-            <div>
-                <input type="radio" id="case3" name="groupe1" value="case 3">
-                <label for="case3">Autre</label>
             </div>
         </div>
 
         <div class="mb-1 mt-3 text-lg font-normal text-blue-900">
             Nom de la structure
         </div>
-        <input type="text" placeholder="Uniquement le nom (exemple: Lariboisière)" class="w-100 p-2 border-blue-900 border-2">
+        <input id="nom_structure" type="text" placeholder="Uniquement le nom (exemple: Lariboisière)" class="w-100 p-2 border-blue-900 border-2">
 
         <div class="mb-1 mt-3 text-lg font-normal text-blue-900">
             Adresse de la structure
         </div>
-        <input type="text" placeholder="10 Avenue de la Santé" class="w-100 p-2 border-blue-900 border-2">
+        <input id="adresse_structure" type="text" placeholder="10 Avenue de la Santé" class="w-100 p-2 border-blue-900 border-2">
         
         <div class="flex flex-row mb-5 space-x-2">
             <div class="1/5">
                 <div class="mb-1 mt-3 text-lg font-normal text-blue-900">
                     Code postal
                 </div>
-                <input type="text" placeholder="75000" class="w-25 p-2 border-blue-900 border-2">
+                <input id="cp_structure" type="text" placeholder="75000" class="w-25 p-2 border-blue-900 border-2">
             </div>
 
             <div class="1/4">
                 <div class="mb-1 mt-3 text-lg font-normal text-blue-900">
                     Ville
                 </div>
-                <input type="text" placeholder="Paris" class="w-73 p-2 border-blue-900 border-2">
+                <input id="ville_structure" type="text" placeholder="Paris" class="w-73 p-2 border-blue-900 border-2">
             </div>
 
         </div>
@@ -95,12 +101,12 @@
         </div>
         <div class="flex inline-flex space-x-3 text-blue-900">
             <div>
-                <input type="radio" id="case1" name="groupe1" value="case 1" checked>
+                <input type="radio" id="covid19_structure_true" name="covid_structure" value="True">
                 <label for="case1">Oui</label>
             </div>
           
             <div>
-                <input type="radio" id="case2" name="groupe1" value="case 2">
+                <input type="radio" id="covid19_structure_false" name="covid_structure" value="False" checked>
                 <label for="case2">Non</label>
             </div>
 
@@ -109,7 +115,7 @@
         <div class="mb-1 mt-3 text-lg font-normal text-blue-900">
             Si oui, précisez le nombre de doses disponibles quotidiennement.<br>
         </div>
-        <input type="text" placeholder="Exemple: 200" class="w-30 p-2 border-blue-900 border-2">
+        <input id="covid_dose" type="text" placeholder="Exemple: 200" class="w-30 p-2 border-blue-900 border-2">
 
         <div class="mb-2 mt-3 text-lg font-semibold text-blue-900">
             Nombre de lits disponibles dans la structure
@@ -117,7 +123,7 @@
                 Incluant l'ensemble des services et départements. La donnée doit être la plus précise que possible. <br>Dans le cadre du contexte sanitaire, ce chiffre sera utile pour des suivis en temps réel de l'affluence dans l'infrastructure.
             </div>
         </div>
-        <input type="text" placeholder="Exemple: 300" class="w-30 p-2 border-blue-900 border-2">
+        <input id="capacite_lit" type="text" placeholder="Exemple: 300" class="w-30 p-2 border-blue-900 border-2">
         
         <div class="mt-5 space-x-2">
             <a
@@ -150,7 +156,7 @@
                 Définissez le nom d'utilisateur du compte chargé de la gestion du déploiement de l'infrastructure.
             </div>
         </div>
-        <input type="text" placeholder="Exemple: admin" class="w-80 p-2 border-blue-900 border-2">
+        <input id="username_admin" type="text" placeholder="Exemple: admin" class="w-80 p-2 border-blue-900 border-2">
 
         <div class="flex flex-row mb-5 space-x-2">
             <div class="1/5">
@@ -160,7 +166,7 @@
                         Définissez le mot de passe de l'administrateur.
                     </div>
                 </div>
-                <input type="password" class="w-80 p-2 border-blue-900 border-2">
+                <input id="password_admin" type="password" class="w-80 p-2 border-blue-900 border-2">
             </div>
 
             <div class="1/4">
@@ -181,7 +187,7 @@
                 Définissez l'adresse e-mail de l'administrateur.
             </div>
         </div>
-        <input type="email" placeholder="Exemple: admin@sante.fr" class="w-80 p-2 border-blue-900 border-2">
+        <input id="email_admin" type="email" placeholder="Exemple: admin@sante.fr" class="w-80 p-2 border-blue-900 border-2">
         
         <div class="mt-3 text-lg font-semibold text-blue-900">
             Autoriser l'ensemble du personnel à visualiser les statistiques en temps réel ?
@@ -192,12 +198,12 @@
 
         <div class="flex inline-flex space-x-3 text-blue-900">
             <div>
-                <input type="radio" id="case1" name="groupe1" value="case 1" checked>
+                <input type="radio" id="public_stats_true" name="public_stats" value="True" checked>
                 <label for="case1">Oui</label>
             </div>
           
             <div>
-                <input type="radio" id="case2" name="groupe1" value="case 2">
+                <input type="radio" id="public_stats_false" name="public_stats" value="False">
                 <label for="case2">Non</label>
             </div>
 
@@ -212,7 +218,7 @@
             </a>
             <a
             href="#"
-            id="setup-continuer-3"
+            id="valider"
             class="px-4 py-1.25 rounded-sm text-lg font-normal bg-blue-900 text-gray-100 no-underline">
                 Terminer
             </a>
