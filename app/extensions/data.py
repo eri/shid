@@ -90,42 +90,32 @@ ROLES = [
 ]
 
 def get_departement(id):
-    """
-    for x in DEPARTEMENTS:
-        if x['id'] == str(id): return x
-    """
-    return mongo.find("shid", "departements", {"id":str(id)})
+    return mongo.find("shid", "departements", {"id":str(id)})[0]
+
+def get_all_departements():
+    return mongo.find("shid", "departements", {})
+
+def get_role(id):
+    return mongo.find("shid", "departements", {"id":str(id)})[0]
+
+def get_all_roles():
+    return mongo.find("shid", "roles", {})
 
 def get_soignant(id):
-    """
-    for x in SOIGNANT:
-        if x['id'] == str(id): return x
-    """
-    return mongo.find("shid", "soignants", {"id":str(id)})
+    return mongo.find("shid", "soignants", {"id":str(id)})[0]
+
+def get_soignant_by_username(name):
+    query = mongo.find("shid", "soignants", {"nom_utilisateur":name})[0]
+    return False if not query else {"nom":query['nom'], "prenom":query['prenom']}
 
 def get_patient(id):
-    """
-    for x in PATIENT:
-        if x['id'] == str(id): return x
-    """
-    return mongo.find("shid", "patients", {"id":str(id)})
+    return mongo.find("shid", "patients", {"id":str(id)})[0]
     
 def get_dossier(id):
-    """
-    for x in PATIENT:
-        for d in x['dossiers']:
-            if d['id'] == str(id): return {"data": d, "patient": x}
-    """
-    return mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}})
+    return mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}})[0]
 
 def get_historique(id):
-    """
-    for x in PATIENT:
-        for d in x['dossiers']:
-            for h in d['historique']:
-                if h['id'] == str(id): return h
-    """
-    return dict(mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}}))
+    return dict(mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}}))[0]
     
 
 def datetime_object(date):

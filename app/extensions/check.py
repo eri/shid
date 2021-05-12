@@ -1,5 +1,13 @@
-from . import mongo
+import extensions.mongo as mongo
+
 import random
+import pymongo
+
+def dernier_id(collection):
+    """Retourne le dernier identifiant pour la collection sélectionnée"""
+    query = mongo.find_sorted('shid', collection, {}, {"k": "id", "o": pymongo.DESCENDING})[0]
+    identifiant = int(query['id'])+1
+    return f"000{identifiant}"
 
 def generer_identifiant(nom, prenom):
     """
@@ -10,10 +18,10 @@ def generer_identifiant(nom, prenom):
     - Chiffre: Faculatatif, ajouté si conflit avec autre id
     """
 
-    identifiant = f"{prenom.split(' ')[0]}.{nom.replace(' ')[:3]}"
-    user_db = mongo.find("shid", "soignants", {"id": identifiant})
+    identifiant = f"{prenom.lower().split(' ')[0]}.{nom.lower().replace(' ', '')[:3]}"
+    user_db = mongo.find("shid", "soignants", {"nom_utilisateur": identifiant})
 
-    if user_db or user_db.count() > 0:
+    if user_db:
         identifiant += str(random.randint(0, 9))
         return identifiant
 
