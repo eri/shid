@@ -106,7 +106,7 @@ def get_soignant(id):
 
 def get_soignant_by_username(name):
     query = mongo.find("shid", "soignants", {"nom_utilisateur":name})[0]
-    return False if not query else {"nom":query['nom'], "prenom":query['prenom']}
+    return False if not query else query
 
 def get_patient(id):
     return mongo.find("shid", "patients", {"id":str(id)})[0]
@@ -116,7 +116,18 @@ def get_dossier(id):
 
 def get_historique(id):
     return dict(mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}}))[0]
-    
+
+def structure():
+    return mongo.find("shid", "structure", {})[0]
+
+def stats():
+    param_structure = structure()
+    lits_utilises = mongo.find("shid", "patients", {}).count()
+    lits_disponibles = int(param_structure['capacite_lit'])-lits_utilises
+    doses_disponibles = param_structure['covid_dose']
+    patients_urgences = mongo.find("shid", "patients", {}).count()
+    soignants_rea = mongo.find("shid", "soignants", {'departements.0': '0001'}).count() if not None else 0
+    return {"1":lits_disponibles, "2":doses_disponibles, "3":lits_utilises, "4": soignants_rea}
 
 def datetime_object(date):
     return datetime.datetime.strptime(date, '%d/%m/%Y')

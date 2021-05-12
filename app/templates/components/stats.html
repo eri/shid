@@ -1,67 +1,35 @@
-<section class="text-gray-500 body-font">
-  <div class="flex flex-wrap justify-center">
-    <div class="p-2 lg:w-1/5 my-2 mx-4 rounded-lg bg-blue-200 bg-opacity-40">
-      <div class="flex flex-wrap my-1">
-        <img
-          class="bg-blue-400 my-auto ml-2 w-14 h-14 object-cover object-center rounded-full hidden xl:block"
-          src="https://media.discordapp.net/attachments/795652759302701126/796759313367826472/logo_small_icon_only_inverted.png"
-        />
-        <div class="whitespace-nowrap my-auto ml-4">
-          <div class="text-m sm:text-xl text-blue-500">
-            Lits disponibles 
-          </div>
-          <div class="inline-flex font-semibold text-5xl text-blue-500">
-            500
-          </div>
-        </div>
-      </div>
+<div class="flex flex-wrap w-full my-2 overflow-hidden">
+
+    <div id="statut_forte_affluence" class="w-full bg-red-700 bg-opacity-20 border-4 border-gray-50 overflow-hidden hidden">
+      <div class="px-3 py-2 text-red-900 font-semibold text-lg">Attention, la structure rencontre actuellement une forte affluence de patients.</div>
+    </div> 
+
+    <div id="statut_normal" class="w-full bg-green-700 bg-opacity-20 border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 py-2 text-green-900 font-semibold text-lg">Tout semble être dans l'ordre. Le flux de patients est dans la normale.</div>
     </div>
 
-    <div class="p-2 lg:w-1/5 my-2 mx-4 rounded-lg bg-blue-200 bg-opacity-40">
-      <div class="flex flex-wrap my-1">
-        <img
-          class="bg-blue-400 my-auto ml-2 w-14 h-14 object-cover object-center rounded-full hidden xl:block"
-          src="https://media.discordapp.net/attachments/795652759302701126/796759313367826472/logo_small_icon_only_inverted.png"
-        />
-        <div class="whitespace-nowrap my-auto ml-4">
-          <div class="text-m sm:text-xl text-blue-500">
-            Patients hospitalisés
-          </div>
-          <div class="inline-flex font-semibold text-5xl text-blue-500">
-            500
-          </div>
-        </div>
-      </div>
+    <div class="w-1/4 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 pt-3 text-blue-900 font-semibold text-2xl">Lits disponibles</div>
+      <div class="px-3 pb-3 text-blue-900 font-bold text-6xl">{{ get_data().stats()['1'] }}</div>
     </div>
 
-    <div class="p-2 lg:w-1/5 my-2 mx-4 rounded-lg bg-blue-200 bg-opacity-40">
-      <div class="flex flex-wrap my-1">
-        <img
-          class="bg-blue-400 my-auto ml-2 w-14 h-14 object-cover object-center rounded-full hidden xl:block"
-          src="https://media.discordapp.net/attachments/795652759302701126/796759313367826472/logo_small_icon_only_inverted.png"
-        />
-        <div class="whitespace-nowrap my-auto ml-4">
-          <div class="text-m sm:text-xl text-blue-500">Urgences</div>
-          <div class="inline-flex font-semibold text-5xl text-blue-500">
-            500
-          </div>
-        </div>
-      </div>
+    <div class="w-1/4 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 pt-3 text-blue-900 font-semibold text-2xl">Doses disponibles</div>
+      <div class="px-3 pb-3 text-blue-900 font-bold text-6xl">{{ get_data().stats()['2'] }}</div>
     </div>
 
-    <div class="p-2 lg:w-1/5 my-2 mx-4 rounded-lg bg-blue-200 bg-opacity-40">
-      <div class="flex flex-wrap my-1">
-        <img
-          class="bg-blue-400 my-auto ml-2 w-14 h-14 object-cover object-center rounded-full hidden xl:block"
-          src="https://media.discordapp.net/attachments/795652759302701126/796759313367826472/logo_small_icon_only_inverted.png"
-        />
-        <div class="whitespace-nowrap ml-4">
-          <div class="text-m sm:text-xl text-blue-500">Réanimation</div>
-          <div class="inline-flex font-semibold text-5xl text-blue-500">
-            500
-          </div>
-        </div>
-      </div>
+    <div class="w-1/4 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 pt-3 text-blue-900 font-semibold text-2xl">Patients urgences</div>
+      <div class="px-3 pb-3 text-blue-900 font-bold text-6xl">{{ get_data().stats()['3'] }}</div>
     </div>
-  </div>
-</section>
+
+    <div class="w-1/4 bg-blue-900 bg-opacity-20 border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 pt-3 text-blue-900 font-semibold text-2xl">Soignants réanimation</div>
+      <div class="px-3 pb-3 text-blue-900 font-bold text-6xl">{{ get_data().stats()['4'] }}</div>
+    </div>
+
+    <div id="stats_updated_at" class="w-full border-4 border-gray-50 overflow-hidden">
+      <div class="px-3 py-0.25 text-blue-900 font-semibold text-sm">Valeurs mises à jour toutes les 20 secondes.</div>
+    </div>
+
+</div>

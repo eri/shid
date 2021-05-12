@@ -52,7 +52,8 @@ app.config.from_mapping(config)
 #         print(f"Connexion à MongoDB échoué... Erreur: `{e}`")
 
 @app.route("/")
-@app.route("/login")
+@app.route("/login/")
+@app.route("/accueil/")
 def index():
     """Retourne la page d'accueuil du site"""
     if "USER" in session:
@@ -71,11 +72,6 @@ def unauthorized():
 def setup_page():
     """Retourne la page d'accueuil du site"""
     return render_template("views/setup.html")
-
-@app.route("/accueil/")
-def logged_in():
-    """Retourne la page d'accueuil du site"""
-    return render_template("views/accueil.html")
 
 
 @app.route("/profil/")
@@ -130,7 +126,6 @@ def ajout_personnel():
     """Ajouter un personnel dans la base de données"""
     return render_template("views/ajout_personnel.html")
 
-
 @app.route("/admin/")
 def portail_administration():
     """Affiche la page d'administration de la structure hospitalière"""
@@ -150,6 +145,69 @@ def page_role(name):
 def github():
     """Retourne la page d'accueuil du site"""
     return redirect("https://github.com/eri/shid")
+
+@app.route("/api/auth/setup/")
+def setup_screen():
+    """Réalise le démarrage rapide dans la base de données"""
+
+    type_structure = str(request.args.get('type_structure')).strip()
+    nom_structure = str(request.args.get('nom_structure')).strip()
+    adresse_structure = str(request.args.get('adresse_structure')).strip()
+    cp_structure = str(request.args.get('cp_structure')).strip()
+    ville_structure = str(request.args.get('ville_structure')).strip()
+
+    covid_structure = str(request.args.get('covid_structure')).strip()
+    covid_dose = str(request.args.get('covid_dose')).strip()
+    capacite_lit = str(request.args.get('capacite_lit')).strip()
+
+    username_admin = str(request.args.get('username_admin')).strip()
+    password_admin = str(request.args.get('password_admin')).strip()
+    email_admin = str(request.args.get('email_admin')).strip()
+    public_stats = str(request.args.get('public_stats')).strip()
+
+    data = {
+        "type": "settings",
+        "type_structure": type_structure,
+        "nom_structure": nom_structure,
+        "adresse_structure": adresse_structure,
+        "cp_structure": cp_structure,
+        "ville_structure": ville_structure,
+        "covid_structure": covid_structure,
+        "covid_dose": covid_dose,
+        "capacite_lit": capacite_lit,
+        "public_stats": public_stats,
+    }
+
+    admin_account = {
+        "id": check.dernier_id("soignants"),
+        "sexe": "",
+        "nom": "Administrateur",
+        "prenom": "",
+        "nom_utilisateur": username_admin,
+        "mot_passe": generate_password_hash(password_admin),
+        "roles": ["0012"],
+        "departements": ["0002"],
+        "date_naissance": "",
+        "date_enregistrement": datetime.datetime.now(),
+        "numero_ss": "",
+        "adresse_email": email_admin
+    }
+
+    try:
+        admin_db = mongo.insert_one("shid", "soignants", admin_account)
+        settings_db = mongo.insert_one("shid", "structure", data)
+
+        return jsonify(
+            {"success": True,
+            "message": f"Setup terminée avec succès. Votre compte administrateur à été généré sous le nom d'utilisateur <b>{admin_account['nom_utilisateur']}</b> et le mot de passe associé. Cliquer sur le bouton pour vous connecter."}
+        )
+    except Exception as e:
+        return jsonify(
+            {
+                "success": False,
+                "error": f"Erreur interne survenue lors de la communication avec la base de donnée. {e}",
+            }
+        )
 
 @app.route("/api/auth/login/")
 def login():
