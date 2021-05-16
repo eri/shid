@@ -21,10 +21,7 @@ def generer_identifiant(nom, prenom):
     """
 
     identifiant = f"{prenom.lower().split(' ')[0]}.{nom.lower().replace(' ', '')[:3]}"
-    user_db = mongo.find("shid", "soignants", {"nom_utilisateur": identifiant})
-
-    if user_db:
+    if mongo.find("shid", "soignants", {"nom_utilisateur": identifiant}):
         identifiant += str(random.randint(0, 9))
-        return identifiant
-
+        
     return identifiant
