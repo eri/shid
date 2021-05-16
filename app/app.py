@@ -163,7 +163,7 @@ def github():
 @app.route("/api/auth/setup/")
 def setup_screen():
     """Réalise le démarrage rapide dans la base de données"""
-
+    
     type_structure = str(request.args.get('type_structure')).strip()
     nom_structure = str(request.args.get('nom_structure')).strip()
     adresse_structure = str(request.args.get('adresse_structure')).strip()

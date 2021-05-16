@@ -122,11 +122,27 @@ def structure():
 
 def stats():
     param_structure = structure()
-    lits_utilises = mongo.find("shid", "patients", {}).count()
+    lits_utilises = mongo.find("shid", "patients", {})
+    if not lits_utilises:
+        lits_utilises = 0
+    else:
+        lits_utilises = lits_utilises.count()
+
     lits_disponibles = int(param_structure['capacite_lit'])-lits_utilises
     doses_disponibles = param_structure['covid_dose']
-    patients_urgences = mongo.find("shid", "patients", {}).count()
-    soignants_rea = mongo.find("shid", "soignants", {'departements.0': '0001'}).count() if not None else 0
+
+    patients_urgences = mongo.find("shid", "patients", {})
+    if not patients_urgences:
+        patients_urgences = 0
+    else:
+        patients_urgences = patients_urgences.count()
+
+    soignants_rea = mongo.find("shid", "soignants", {'departements.0': '0001'})
+    if not soignants_rea:
+        soignants_rea = 0
+    else:
+        soignants_rea = soignants_rea.count()
+
     return {"1":lits_disponibles, "2":doses_disponibles, "3":lits_utilises, "4": soignants_rea}
 
 def datetime_object(date):
