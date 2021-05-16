@@ -6,7 +6,8 @@
     redirect,
     request,
     session,
-    url_for
+    url_for,
+    abort
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_caching import Cache
@@ -14,6 +15,7 @@ from flask_caching import Cache
 import extensions.mongo as mongo
 import extensions.check as check
 import extensions.data as data
+import extensions.setup as setup
 
 import datetime
 import requests
@@ -33,66 +35,59 @@ config = {
     )
 }
 
-# Define the Flask Application
+### Definir l'application Flask
 app = Flask(__name__, static_url_path="/", static_folder="static", template_folder="templates")
 app.config.from_mapping(config)
 
-# Define other dependencies
-# cache = Cache(app)
-# cache.init_app(app)
+### Définir le cache côté serveur
+cache = Cache(app)
+cache.init_app(app)
 
-@app.before_first_request
-def verification_bdd():
-    """Vérifie que la connexion à la base de données est établie"""
-    try:
-        mongo_client = pymongo.MongoClient("mongodb://mongodb:27017")
-        mongo_client.server_info()
-        print("Connexion réussi à MongoDB sur localhost:27017 !")
+### Vérification avant les requêtes
+
+@app.before_request
+def first_setup():
+    """Vérifications avant de traiter la première requête"""
+    db_check = setup.verify_db_connection()
+    if not db_check['success']:
+        return render_template("views/errors/503.html", **{"e":db_check}), 503
         
-        print("Création de la base de donnée et des collections...")
-        db = mongo_client["shid"]
-        col_patients = db['patients']
-        col_soignants = db['soignants']
-        col_departements = db['departements']
-        col_roles = db['roles']
-        col_structure = db['structure']
-        
-        print("Base de données et collection crée!")
-
-    except Exception as e:
-        print(f"Connexion à MongoDB échoué... Erreur: `{e}`")
-
-@app.route("/")
-@app.route("/login/")
-@app.route("/accueil/")
-def index():
-    """Retourne la page d'accueuil du site"""
-    if pymongo.MongoClient("mongodb://mongodb:27017")['shid']['structure'].find({}).count() == 0:
+    if not setup.is_setup():
+        setup.initialize_db()
         return render_template("views/setup.html")
 
-    if "USER" in session:
-        # Utilisateur est connecté
-        return render_template("views/accueil.html")
+    if not "USER" in session:
+        # Utilisateur non connecté
+        return render_template("views/login.html", **{"data":data})
 
-    # L'utilisateur n'est pas connecté, retour au login
-    return render_template("views/login.html", **{'data':data})
+# @app.before_request
+# def login_session_check():
+#     """Vérifie que l'utilisateur est bien dans une session active."""
+#     db_check = setup.verify_db_connection()
+#     if not db_check['success']:
+#         return render_template("views/errors/503.html", **{"e":db_check}), 503
 
-@app.route("/500/")
-def unauthorized():
-    """Retourne la page d'accueuil du site"""
-    return render_template("views/500.html")
+#     if not "USER" in session:
+#         # Utilisateur non connecté
+#         return render_template("views/login.html", **{"data":data})
 
-@app.route("/setup/")
-def setup_page():
-    """Retourne la page d'accueuil du site"""
-    return render_template("views/setup.html")
+@app.route("/")
+@app.route("/accueil/")
+def index():
+    """Page d'accueil du site"""
+    return render_template("views/accueil.html", **{'data':data})
 
+# @app.route("/setup/")
+# def setup_page():
+#     """Retourne la page d'accueuil du site"""
+#     return render_template("views/setup.html")
 
-@app.route("/profil/")
-def profil():
-    """Retourne la page d'accueuil du site"""
-    return render_template("views/profil.html")
+# @app.route("/profil/")
+# def profil():
+#     """Retourne la page d'accueuil du site"""
+#     return render_template("views/profil.html")
 
+### Dossiers patient
 
 @app.route("/dossiers/")
 def liste_dossiers_patients():
@@ -155,10 +150,8 @@ def portail_administration():
 #     """Affiche la page de gestion d'un role"""
 #     return render_template("views/admin.html")
 
-@app.route("/github/")
-def github():
-    """Retourne la page d'accueuil du site"""
-    return redirect("https://github.com/eri/shid")
+
+### Routes API
 
 @app.route("/api/auth/setup/")
 def setup_screen():
@@ -331,17 +324,34 @@ def stats():
 @app.route("/api/search/<type>/<query>/")
 def search_db(type, query):
     """Recherche les patients et soignants par nom/prenom"""
-    search = mongo.find(
-        "shid",
-        type,
-        {
-            "$or": [
-                {"nom": {"$regex": query, "$options": "i"}},
-                {"prenom": {"$regex": query, "$options": "i"}},
-            ]
-        },
-    )
+    search = {}
     return search
+
+### Redirections
+
+@app.route("/github/")
+def github():
+    """Lien vers le repository GitHub du projet"""
+    return redirect("https://github.com/eri/shid")
+
+### Pages d'erreur personnalisées
+
+@app.errorhandler(403)
+def page_not_found(e):
+    """Erreur 403 - Non autorisé"""
+    return render_template('views/errors/403.html'), 403
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """Erreur 404 - Page introuvable"""
+    return render_template('views/errors/404.html'), 404
+
+@app.errorhandler(503)
+def service_unavailable():
+    """Erreur 503 - Service non disponible"""
+    return render_template("views/errors/503.html"), 503
+
+### Processeur de contexte global
 
 @app.context_processor
 def checkers():
@@ -361,14 +371,14 @@ def checkers():
     def resolve_all_roles():
         return data.get_all_roles()
 
-    def get_data():
+    def data():
         return data
 
     return dict(
         active_session=active_session,
         session_user=session_user,
         resolve_departement=resolve_departement,
-        get_data=get_data,
+        data=data,
         resolve_all_departements=resolve_all_departements,
         resolve_all_roles=resolve_all_roles
         )
