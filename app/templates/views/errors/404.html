@@ -1,0 +1,34 @@
+{% extends "default.html" %}
+
+{% block page_title %} Introuvable {% endblock %}
+{% block page_navbar %} {% endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
+>
+
+  <div class="mt-2">
+    <div class="text-9xl font-semibold text-blue-900">
+        404
+    </div>
+    <div class="ml-2 text-4xl font-semibold text-blue-900">
+        Page introuvable
+        <div class="text-xl font-normal">
+            Vous avez atteint le néant, cette page n'existe pas ou n'existe plus. Vérifiez l'adresse de la page et réessayez.<br>
+            Ça vous dit de retourner à l'accueil ?
+        </div>
+        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal">
+            {{ e }}
+        </div>
+    </div>
+    <div class="ml-2 mt-4">
+        <a
+        href="{{ url_for('index') }}"
+        class="py-1 justify-items-auto font-semibold rounded-sm text-gray-100 bg-blue-900 no-underline">
+            <span class="my-auto w-full px-2">Retour à l'accueil</span>
+        </a>
+    </div>
+
+</div>

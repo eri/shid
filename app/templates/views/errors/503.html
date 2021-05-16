@@ -1,0 +1,36 @@
+{% extends "default.html" %}
+
+{% block page_title %} Service indisponible {% endblock %} 
+{% block page_navbar %} {% endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-col flex-wrap py-50 px-10 mx-auto md:flex-row"
+>
+
+  <div class="mt-2">
+    <div class="text-9xl font-semibold text-blue-900">
+        503
+    </div>
+    <div class="ml-2 my-2 text-4xl font-semibold text-blue-900">
+        Service non disponible
+        <div class="text-xl font-normal">
+            Impossible de se connecter à la base de données. Veuillez réessayer dans quelques minutes.
+            <br>Si le problème persiste, contactez votre administrateur de structure.
+        </div>
+        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal">
+            {{ e }}
+        </div>
+    </div>
+    <div class="ml-2 mt-4">
+        <a
+        href="{{ url_for('index') }}"
+        class="py-1 justify-items-auto font-semibold rounded-sm text-gray-100 bg-blue-900 no-underline">
+            <span class="my-auto w-full px-2">Retour à l'accueil</span>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
