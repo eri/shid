@@ -17,7 +17,7 @@ class="container flex flex-col flex-wrap py-16 px-5 mx-auto md:flex-row"
       <div class="mt-4 text-4xl font-light text-blue-900 w-full">
         Bienvenue
         <div class="text-2xl font-semibold">
-          {{ data.STRUCTURE.type.capitalize() }} {{ data.STRUCTURE.nom }}
+          {{ get_data().structure().structure.type.capitalize() }} {{ get_data().structure().structure.nom }}
         </div>
         <div id="ErrorMessage" class="text-sm my-4 p-2 font-semibold bg-red-700 text-gray-100 hidden">
           Erreur.
@@ -75,7 +75,7 @@ class="container flex flex-col flex-wrap py-16 px-5 mx-auto md:flex-row"
       <div class="mb-0.5 text-md font-normal text-blue-900">
         Votre mot de passe est unique. Il est généré automatiquement par votre administrateur de structure lors de la création de votre compte personnel.
         <br><br>
-        En cas d'oubli ou de perte d'accès, contactez l'administrateur à l'adresse mail <span class="font-bold">{{ data.STRUCTURE.admin_mail }}</span>.
+        En cas d'oubli ou de perte d'accès, contactez l'administrateur de structure.
       </div>
 
     </div>

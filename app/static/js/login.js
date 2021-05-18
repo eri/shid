@@ -18,7 +18,7 @@ function login() {
   }).done(function (data) {
 
     if (data["success"] == true) {
-        window.location.href = "/accueil/"
+        window.location.href = "/"
     } else {
       box.innerHTML = data['error']
       box.classList.replace("hidden", "block");

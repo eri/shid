@@ -3,7 +3,7 @@
     class="container flex flex-col flex-wrap items-center p-5 mx-auto md:flex-row"
   >
     <nav class="flex flex-wrap items-center text-base lg:w-2/5 space-x-4 md:ml-auto">
-      <a href="#" class="py-1 px-2.5 font-semibold rounded-sm no-underline">
+      <a href="{{ url_for('index') }}" class="py-1 px-2.5 font-semibold rounded-sm no-underline">
 
           {% include 'icons/logo_name.svg' %}
 
@@ -17,16 +17,22 @@
     >
 
     </a>
-    <div class="inline-flex ml-5 lg:w-2/5 lg:justify-end lg:ml-0 cursor-not-allowed">
+    <div class="inline-flex ml-5 lg:w-2/5 lg:justify-end lg:ml-0 space-x-1 ">
+      {% if active_session() %}
       <div
+        class="inline-flex cursor-not-allowed items-center px-2.5 py-1 mt-4 text-base bg-blue-800 bg-opacity-10 border-0 rounded no-underline font-semibold text-blue-900 hover:text-blue-700 md:mt-0"
+      >
+        {{ session_user().nom }} {{ session_user().prenom }}
+      </div>
+      <a
+        href="{{ url_for('logout') }}"
         class="inline-flex items-center px-2.5 py-1 mt-4 text-base bg-blue-800 bg-opacity-10 border-0 rounded no-underline font-semibold text-blue-900 hover:text-blue-700 md:mt-0"
       >
-        {% if session_user %}
-        {{ session_user().nom }} {{ session_user().prenom }}
-        {% else %}
-        Connexion
-        {% endif %}
-      </div>
+        Déconnexion
+      </a>
+      {% else %}
+      Connexion
+      {% endif %}
     </div>
   </div>
 </header>
