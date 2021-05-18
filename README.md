@@ -62,3 +62,6 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 * [Docker Compose](https://docker.com)
 * [WindiCSS](https://windicss.org) by [@antfu](https://github.com/antfu)
 * [Python-Flask-MongoDB](https://github.com/ivoreali/Python-Flask-MongoDB) by [@ivoreali](https://github.com/ivoreali)
+
+### Collaborators
+* [Baflee](https://github.com/Baflee)
