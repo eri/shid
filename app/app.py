@@ -44,43 +44,31 @@ cache = Cache(app)
 cache.init_app(app)
 
 ### Vérification avant les requêtes
+def is_active_session():
+    return False if setup.is_setup() and not "USER" in session else True
 
-@app.before_request
+@app.before_first_request
 def first_setup():
     """Vérifications avant de traiter la première requête"""
+    if not setup.is_setup():
+        setup.initialize_db()
+
+@app.before_request
+def login_session_check():
+    """Vérifie que l'utilisateur est bien dans une session active."""
     db_check = setup.verify_db_connection()
     if not db_check['success']:
         return render_template("views/errors/503.html", **{"e":db_check}), 503
-        
-    if not setup.is_setup():
-        setup.initialize_db()
-        return render_template("views/setup.html")
-
-    if not "USER" in session:
-        # Utilisateur non connecté
-        return render_template("views/login.html", **{"data":data})
-
-# @app.before_request
-# def login_session_check():
-#     """Vérifie que l'utilisateur est bien dans une session active."""
-#     db_check = setup.verify_db_connection()
-#     if not db_check['success']:
-#         return render_template("views/errors/503.html", **{"e":db_check}), 503
-
-#     if not "USER" in session:
-#         # Utilisateur non connecté
-#         return render_template("views/login.html", **{"data":data})
 
 @app.route("/")
-@app.route("/accueil/")
 def index():
     """Page d'accueil du site"""
-    return render_template("views/accueil.html", **{'data':data})
+    if not setup.is_setup():
+        return render_template("views/setup.html")
 
-# @app.route("/setup/")
-# def setup_page():
-#     """Retourne la page d'accueuil du site"""
-#     return render_template("views/setup.html")
+    if not is_active_session(): return render_template("views/login.html")
+
+    return render_template("views/accueil.html")
 
 # @app.route("/profil/")
 # def profil():
@@ -92,18 +80,20 @@ def index():
 @app.route("/dossiers/")
 def liste_dossiers_patients():
     """Affiche les dossiers des patients du département concerné"""
-    return render_template("views/liste_dossiers.html")
+    if not is_active_session(): return redirect(url_for("index"))
+    return render_template("views/liste_patients.html")
 
 
 @app.route("/dossiers/nouveau/")
 def nouveau_dossier_patient():
     """Crée un nouveau dossier pour un patient"""
-    return render_template("views/ajout_dossier.html", **{'data':data})
-
+    if not is_active_session(): return redirect(url_for("index"))
+    return render_template("views/ajout_dossier.html")
 
 @app.route("/dossiers/<id>/")
 def dossier_patient(id):
     """Affiche un dossier patient en particulier"""
+    if not is_active_session(): return redirect(url_for("index"))
     dossier = data.get_dossier(id)
 
     if not dossier:
@@ -124,32 +114,37 @@ def dossier_patient(id):
     }
     return render_template("views/dossier.html", **{"d":donnees})
 
+### Partie administration
+
+@app.route("/admin/")
+def portail_administration():
+    """Affiche la page d'administration de la structure hospitalière"""
+    if not is_active_session(): return redirect(url_for("index"))
+    return render_template("views/admin.html")
 
 @app.route("/admin/personnels/")
 def liste_personnels():
     """Affiche la liste des personnels du département concerné"""
+    if not is_active_session(): return redirect(url_for("index"))
     return render_template("views/liste_personnel.html")
 
 @app.route("/admin/personnels/nouveau")
 def ajout_personnel():
     """Ajouter un personnel dans la base de données"""
+    if not is_active_session(): return redirect(url_for("index"))
     return render_template("views/ajout_personnel.html")
 
-@app.route("/admin/")
-def portail_administration():
-    """Affiche la page d'administration de la structure hospitalière"""
-    return render_template("views/admin.html", **{'data':data})
+@app.route("/admin/roles/nouveau")
+def ajout_role():
+    """Ajouter un personnel dans la base de données"""
+    if not is_active_session(): return redirect(url_for("index"))
+    return render_template("views/ajout_roles.html")
 
-# @app.route("/admin/departement/<name>/")
-# def page_departement(name):
-#     """Affiche la page de gestion d'un département"""
-#     return render_template("views/admin.html")
-
-# @app.route("/admin/role/<name>/")
-# def page_role(name):
-#     """Affiche la page de gestion d'un role"""
-#     return render_template("views/admin.html")
-
+@app.route("/admin/departements/nouveau")
+def ajout_departement():
+    """Ajouter un personnel dans la base de données"""
+    if not is_active_session(): return redirect(url_for("index"))
+    return render_template("views/ajout_departement.html")
 
 ### Routes API
 
@@ -172,28 +167,32 @@ def setup_screen():
     email_admin = str(request.args.get('email_admin')).strip()
     public_stats = str(request.args.get('public_stats')).strip()
 
-    data = {
-        "type": "settings",
-        "type_structure": type_structure,
-        "nom_structure": nom_structure,
-        "adresse_structure": adresse_structure,
-        "cp_structure": cp_structure,
-        "ville_structure": ville_structure,
-        "covid_structure": covid_structure,
-        "covid_dose": covid_dose,
-        "capacite_lit": capacite_lit,
-        "public_stats": public_stats,
+    structure_data = {
+        "id": "configuration",
+        "setup": True,
+        "structure": {
+            "type":         type_structure,
+            "capacite_lit": capacite_lit,
+            "nom":          nom_structure,
+            "adresse":      adresse_structure,
+            "code_postal":  cp_structure,
+            "ville":        ville_structure,
+        },
+        "covid_mode": {
+            "enabled": covid_structure,
+            "daily_dose": covid_dose
+        }
     }
 
     admin_account = {
-        "id": check.dernier_id("soignants"),
+        "id": "00001",
         "sexe": "",
         "nom": "Administrateur",
         "prenom": "",
         "nom_utilisateur": username_admin,
         "mot_passe": generate_password_hash(password_admin),
-        "roles": ["0012"],
-        "departements": ["0002"],
+        "roles": ["00001"],
+        "departements": ["00008"],
         "date_naissance": "",
         "date_enregistrement": datetime.datetime.now(),
         "numero_ss": "",
@@ -201,12 +200,12 @@ def setup_screen():
     }
 
     try:
-        admin_db = mongo.insert_one("shid", "soignants", admin_account)
-        settings_db = mongo.insert_one("shid", "structure", data)
+        admin_db = mongo.insert_one("shid", "personnels", admin_account)
+        settings_db = mongo.replace_one("shid", "structure", {"id": "configuration"}, structure_data)
 
         return jsonify(
             {"success": True,
-            "message": f"Setup terminée avec succès. Votre compte administrateur à été généré sous le nom d'utilisateur <b>{admin_account['nom_utilisateur']}</b> et le mot de passe associé. Cliquer sur le bouton pour vous connecter."}
+            "message": f"Setup terminée avec succès. Votre compte administrateur <b>{admin_account['nom_utilisateur']}</b> et le mot de passe associé. Cliquer sur le bouton pour vous connecter."}
         )
     except Exception as e:
         return jsonify(
@@ -223,7 +222,7 @@ def login():
     mdp = str(request.args.get('password')).strip()
     
     try:
-        user_db = mongo.find("shid", "soignants", {"nom_utilisateur": identifiant})
+        user_db = mongo.find("shid", "personnels", {"nom_utilisateur": identifiant})
     except Exception as e:
         return jsonify(
             {"success": False, "error": f"Erreur interne. Veuillez réessayer dans quelques minutes. Si cela persiste, contactez l'administrateur de votre structure. Reférence: {e}"}
@@ -300,6 +299,72 @@ def logout():
     return redirect("/")
 
 
+@app.route("/api/roles/new/")
+def api_new_role():
+    """Réalise le démarrage rapide dans la base de données"""
+    
+    nom_role = str(request.args.get('nom_role')).strip()
+    permissions = []
+
+    for x in [
+        "afficher_stats", 
+        "ajouter_dossier", 
+        "afficher_dossier", 
+        "editer_dossier", 
+        "supprimer_dossier"
+    ]:
+        perm_check = str(request.args.get(x)).strip()
+        if not "False" in perm_check: permissions.append(perm_check)
+
+    role_data = {
+        "nom": nom_role, 
+        "id": check.dernier_id("roles"), 
+        "permissions": permissions
+    }
+
+    try:
+        role_db = mongo.insert_one("shid", "roles", role_data)
+
+        return jsonify(
+            {"success": True,
+            "message": f"Rôle sauvegardée avec succès."}
+        )
+    except Exception as e:
+        return jsonify(
+            {
+                "success": False,
+                "error": f"Erreur interne survenue lors de la communication avec la base de donnée. {e}",
+            }
+        )
+
+@app.route("/api/roles/delete/<id>/")
+def api_delete_role(id):
+    """Supprime un rôle dans la base de données"""
+    mongo.delete_one("shid", "roles", {"id":str(id)})
+    return redirect(url_for('portail_administration'))
+
+
+@app.route("/api/departements/new/")
+def api_new_departement():
+    """Ajoute un département dans la base de données"""
+    
+    nom_dep = str(request.args.get('nom_departement')).strip()
+    dep_data = {"nom": nom_dep, "id": check.dernier_id("departements"), "image":""}
+
+    try:
+        dep_db = mongo.insert_one("shid", "departements", dep_data)
+        return jsonify({"success": True,
+            "message": f"Département sauvegardée avec succès."})
+    except Exception as e:
+        return jsonify({"success": False,
+                "error": f"Erreur interne survenue lors de la communication avec la base de donnée. {e}"})
+
+@app.route("/api/departements/delete/<id>/")
+def api_delete_departement(id):
+    """Supprime un rôle dans la base de données"""
+    mongo.delete_one("shid", "departements", {"id":str(id)})
+    return redirect(url_for('portail_administration'))
+
 @app.route("/api/stats/")
 def stats():
     """Retourne les résultats des statistiques depuis la base de données"""
@@ -319,7 +384,6 @@ def stats():
             "urgences": urgences,
         }
     )
-
 
 @app.route("/api/search/<type>/<query>/")
 def search_db(type, query):
@@ -359,8 +423,8 @@ def checkers():
         return True if "USER" in session else False
 
     def session_user():
-        if not "USER" in session: return False
-        return data.get_soignant_by_username(session['USER'])
+        user_ses = data.get_soignant_by_username(session['USER'])
+        return user_ses
 
     def resolve_departement(id):
         return data.get_departement(id)
@@ -371,14 +435,14 @@ def checkers():
     def resolve_all_roles():
         return data.get_all_roles()
 
-    def data():
+    def get_data():
         return data
 
     return dict(
         active_session=active_session,
         session_user=session_user,
         resolve_departement=resolve_departement,
-        data=data,
+        get_data=get_data,
         resolve_all_departements=resolve_all_departements,
         resolve_all_roles=resolve_all_roles
         )
