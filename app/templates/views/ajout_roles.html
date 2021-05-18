@@ -1,0 +1,245 @@
+{% extends "default.html" %}
+
+{% block page_title %} Ajouter un rôle {% endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-wrap py-15 px-5 mx-auto md:flex-row"
+>
+  
+  <div class="text-4xl text-center font-medium text-blue-900 w-full">
+    <div class="mx-auto">
+      {% include 'icons/add_role.svg' %}
+    </div>
+    Ajouter un rôle
+  </div>
+
+
+  <div class="flex flex-col justify-between w-full">
+    <div class="text-sm text-center font-medium text-blue-900">
+        Les rôles permettent aux utilisateurs dont ils seront attribués d'accéder à un groupe de permissions.<br>
+        Elles permettent d'éviter de configurer les permissions manuellement pour chacun des personnels.<br><br>
+    </div>
+  
+    <div id="confirmMessage" class="text-lg my-4 p-2 font-semibold bg-green-600 text-gray-100 hidden">
+        Role crée avec succès.
+    </div>
+    <div id="redirectLogin" class="hidden">
+        <a
+        href="{{ url_for('portail_administration') }}"
+        id="redirect_login"
+        class="py-1.5 px-2 rounded-sm text-lg font-semibold bg-green-900 text-gray-100 no-underline">
+            Retour au portail
+        </a>
+    </div>
+
+  </div>
+
+
+  <div class="mt-10">
+    <div class="mb-4 text-3xl font-normal text-blue-900">
+        Informations générales
+        <div class="mt-2 text-sm">
+            Ce rôle pourra être géré plus tard depuis votre panneau d'administration, sous la catégorie des rôles.<br>
+            Des rôles par défaut avec des permissions prédéfinies sont automatiquement mises en place dès le démarrage du projet.<br><br>
+            <span class="text-red-800 font-bold">Les permissions marquées en rouge représentent un risque de sécurité et doivent être assignés avec précaution.</span>
+        </div>
+    </div>
+
+    <div class="mb-1 mt-4 text-lg font-semibold text-blue-900">
+      Nom du rôle
+      <div class="text-sm font-normal">
+        Le nom de rôle sera visible depuis le portail des personnels.
+      </div>
+    </div>
+    <input id="nom_role" type="text" placeholder="Médecin" class="w-60 p-2 border-blue-900 border-2">
+
+  </div>
+
+  <div class="mt-4 w-full text-3xl font-normal text-blue-900">
+    Permissions
+    <div class="text-sm font-normal">
+        Sélectionnez les permissions dont vous voulez accorder à ce rôle.
+    </div>
+  </div>
+
+  <div class="mb-1 mt-4 w-full text-lg font-semibold text-blue-900">
+    Afficher les statistiques en temps réel
+    <div class="mt-2 text-sm">
+      Donne le droit de voir les statistiques en temps réel de la structure sur la page d'accueil des personnels.
+    </div>
+  </div>
+  <div class="flex inline-flex space-x-3 text-blue-900">
+      <div>
+          <input type="radio" name="afficher_stats" value="AFFICHER_STATS">
+          <label for="case1">Oui</label>
+      </div>
+    
+      <div>
+          <input type="radio" name="afficher_stats" value="False" checked>
+          <label for="case2">Non</label>
+      </div>
+
+  </div>
+
+  <div class="mb-1 mt-4 w-full text-lg font-semibold text-blue-900">
+    Ajout de dossiers
+    <div class="text-sm font-normal">
+      Permet d'ajouter un dossier patient dans la base de données.
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-2 text-blue-900">
+    <div>
+      <input type="radio" name="ajouter_dossier" value="AJOUTER_DOSSIER_ALL">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          AJOUTER_DOSSIER_ALL
+        </span>: Permission d'ajouter dans tous les départements
+      </label>
+    </div>
+  
+    <div>
+      <input type="radio" name="ajouter_dossier" value="AJOUTER_DOSSIER_DEP">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          AJOUTER_DOSSIER_DEP
+        </span>: Permission d'ajouter uniquement dans les départements dont le personnel a accès
+      </label>
+    </div>
+
+  </div>
+  <!-- Fin ajouter des dossiers -->
+
+  <div class="mb-1 mt-4 w-full text-lg font-semibold text-blue-900">
+    Afficher les dossiers
+    <div class="text-sm font-normal">
+      Permet d'afficher les dossiers patient depuis la base de données.
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-2 text-blue-900">
+    <div>
+      <input type="radio" name="afficher_dossier" value="AFFICHER_DOSSIER_ALL">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          AFFICHER_DOSSIER_ALL
+        </span>: Permission d'afficher les dossiers de tous les départements
+      </label>
+    </div>
+  
+    <div>
+      <input type="radio" name="afficher_dossier" value="AFFICHER_DOSSIER_DEP">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          AFFICHER_DOSSIER_DEP
+        </span>: Permission d'afficher uniquement les dossiers dans les départements dont le personnel a accès
+      </label>
+    </div>
+
+    <div>
+      <input type="radio" name="afficher_dossier" value="AFFICHER_DOSSIER_PER">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          AFFICHER_DOSSIER_PER
+        </span>: Permission d'afficher uniquement les dossiers dont le personnel est assigné ou crée par lui-même
+      </label>
+    </div>
+
+  </div>
+  <!-- Fin Afficher les dossiers -->
+
+  <div class="mb-1 mt-4 w-full text-lg font-semibold text-blue-900">
+    Éditer les dossiers
+    <div class="text-sm font-normal">
+      Permet d'éditer et d'apporter de nouveaux éléments sur les dossiers patient à la base de données.
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-2 text-blue-900">
+    <div>
+      <input type="radio" name="editer_dossier" value="EDITER_DOSSIER_ALL">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-red-400 text-sm rounded-sm">
+          EDITER_DOSSIER_ALL
+        </span>: Permission d'éditer tous les dossiers de tous les départements
+      </label>
+    </div>
+  
+    <div>
+      <input type="radio" name="editer_dossier" value="EDITER_DOSSIER_DEP">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          EDITER_DOSSIER_DEP
+        </span>: Permission d'éditer tous les dossiers dans les départements dont le personnel a accès
+      </label>
+    </div>
+
+    <div>
+      <input type="radio" name="editer_dossier" value="EDITER_DOSSIER_PER">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          EDITER_DOSSIER_PER
+        </span>: Permission d'éditer uniquement les dossiers dont le personnel est assigné ou crée par lui-même
+      </label>
+    </div>
+
+  </div>
+  <!-- Fin Editer les dossiers -->
+
+  <div class="mb-1 mt-4 w-full text-lg font-semibold text-blue-900">
+    Supprimer les dossiers
+    <div class="text-sm font-normal">
+      Permet de supprimer les dossiers patient depuis la base de données.
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-2 text-blue-900">
+    <div>
+      <input type="radio" name="supprimer_dossier" value="SUPPRIMER_DOSSIER_ALL">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-red-400 text-sm rounded-sm">
+          SUPPRIMER_DOSSIER_ALL
+        </span>: Permission d'éditer tous les dossiers de tous les départements
+      </label>
+    </div>
+  
+    <div>
+      <input type="radio" name="supprimer_dossier" value="SUPPRIMER_DOSSIER_DEP">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-red-400 text-sm rounded-sm">
+          SUPPRIMER_DOSSIER_DEP
+        </span>: Permission d'éditer tous les dossiers dans les départements dont le personnel a accès
+      </label>
+    </div>
+
+    <div>
+      <input type="radio" name="supprimer_dossier" value="SUPPRIMER_DOSSIER_PER">
+      <label for="case1">
+        <span class="bg-gray-900 p-0.25 text-gray-50 text-sm rounded-sm">
+          SUPPRIMER_DOSSIER_PER
+        </span>: Permission d'éditer uniquement les dossiers dont le personnel est assigné ou crée par lui-même
+      </label>
+    </div>
+
+  </div>
+  <!-- Fin Supprimer les dossiers -->
+
+  <div class="w-full my-8">
+    <a
+    href="#"
+    id="valider"
+    class="px-4 py-1.25 rounded-sm text-lg font-normal bg-blue-900 text-gray-100 no-underline">
+        Créer le rôle
+    </a>
+</div>
+
+<!-- Fin du container -->
+</div>
+
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='./js/new_role.js') }}"></script>
+{% endblock %}
