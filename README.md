@@ -7,7 +7,6 @@
   <img alt="Flask" src="https://img.shields.io/badge/flask%20-%23000.svg?&style=for-the-badge&logo=flask&logoColor=white"/>
   <img alt="JavaScript" src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
   <img alt="TailwindCSS" src="https://img.shields.io/badge/tailwindcss%20-%2338B2AC.svg?&style=for-the-badge&logo=tailwind-css&logoColor=white"/>
-  <img alt="Nginx" src="https://img.shields.io/badge/nginx%20-%23009639.svg?&style=for-the-badge&logo=nginx&logoColor=white"/>
   <img alt="MongoDB" src ="https://img.shields.io/badge/MongoDB-%234ea94b.svg?&style=for-the-badge&logo=mongodb&logoColor=white"/>
 </p>
 
@@ -50,9 +49,16 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 > - Delete your containers and images 
 > - Run the `sudo docker-compose up -d` command again.
 
-5. The website should be now accessible from `your_ip:5000` (ex: `55.12.455.52:5000`) and MongoDB must be available at the port `27017`. Consider updating the ports from the `docker-compose.yml` file to keep things secure.
+5. The website should be now accessible from `your_ip:5000` (ex: `55.12.455.52:5000`) and MongoDB must be available at the port `27277`. Consider updating the ports from the `docker-compose.yml` file to keep things secure.
 
 
 ### Planned
 * **Work routine tool.** See and manage your recent activities, personal notes and daily/weekly/monthly planning
 * **Real-time messaging.** Messaging between workers and other health departments, to stay connected without using third party platforms
+
+### Dependencies & Tools
+* [Flask](https://flask.palletsprojects.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Docker Compose](https://docker.com)
+* [WindiCSS](https://windicss.org) by [@antfu](https://github.com/antfu)
+* [Python-Flask-MongoDB](https://github.com/ivoreali/Python-Flask-MongoDB) by [@ivoreali](https://github.com/ivoreali)
