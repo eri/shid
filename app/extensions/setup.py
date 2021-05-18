@@ -23,7 +23,7 @@ def verify_db_connection():
 
 def is_setup():
     """Vérifier si la base de donnée à bien été mise en place"""
-    return False if client.mongo['shid']['structure'].find({}).count() == 0 else True
+    return False if client.mongo['shid']['structure'].find({"setup":True}).count() == 0 else True
 
 def initialize_db():
     """Crée la base de donnée et les collections"""
@@ -32,12 +32,15 @@ def initialize_db():
 
     # Database
     db = client.mongo["shid"]
-    # Collections
-    col_patients = db['patients'].insert_one(config.DEFAULT_COLLECTION_PATIENT)
-    col_personnels = db['personnels'].insert_one(config.DEFAULT_COLLECTION_PERSONNELS)
-    col_departements = db['departements'].insert_many(config.DEFAULT_COLLECTION_DEPARTEMENTS)
-    col_roles = db['roles'].insert_many(config.DEFAULT_COLLECTION_ROLES)
-    col_structure = db['structure'].insert_many(config.DEFAULT_COLLECTION_STRUCTURE)
+
+    if db['structure'].find({"setup":False}).count() == 0:
+        # Collections
+        col_patients = db['patients'].insert_one(config.DEFAULT_COLLECTION_PATIENT)
+        col_personnels = db['personnels'].insert_one(config.DEFAULT_COLLECTION_PERSONNELS)
+        col_departements = db['departements'].insert_many(config.DEFAULT_COLLECTION_DEPARTEMENTS)
+        col_roles = db['roles'].insert_many(config.DEFAULT_COLLECTION_ROLES)
+        col_structure = db['structure'].insert_many(config.DEFAULT_COLLECTION_STRUCTURE)
     
-    print("Base de données et collections crée, données par défaut insérés!")
-    
+        print("Base de données et collections crée, données par défaut insérés!")
+
+    print("Déjà crée!")

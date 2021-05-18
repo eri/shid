@@ -1,6 +1,7 @@
 import datetime
 
 MONGODB_URI = "mongodb://localhost:27017"
+MONGODB_DEV_URI = "mongodb://localhost:27017"
 
 DEFAULT_COLLECTION_DEPARTEMENTS = [
     {"nom": "Urgences", "id": "00001", "image": ""},
@@ -10,6 +11,7 @@ DEFAULT_COLLECTION_DEPARTEMENTS = [
     {"nom": "Orthodentie", "id": "00005", "image": ""},
     {"nom": "Cardiologie", "id": "00006", "image": ""},
     {"nom": "Radiologie", "id": "00007", "image": ""},
+    {"nom": "Technique", "id": "00008", "image": ""},
 ]
 
 DEFAULT_COLLECTION_ROLES = [
@@ -71,6 +73,7 @@ DEFAULT_COLLECTION_ROLES = [
 DEFAULT_COLLECTION_STRUCTURE = [
     {
         "id": "configuration",
+        "setup": False,
         "structure": {
             "type":         "",
             "nom":          "",
@@ -146,6 +149,8 @@ DEFAULT_COLLECTION_PERSONNELS = {
         "sexe": "feminin",
         "nom": "Fevre",
         "prenom": "Catherine",
+        "nom_utilisateur": "fevre.cat",
+        "mot_passe": "",
         "roles": ["00002", "00003"],
         "departements": ["00001"],
         "date_naissance": "21/03/1989",
