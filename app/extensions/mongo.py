@@ -28,6 +28,12 @@ def find_sorted(db, collection, query, sorter):
 
 def insert_one(db, collection, data):
     query = mongo[db][collection].insert_one(data)
-    if query:
-        return query
-    return None
+    return query if query else None
+
+def replace_one(db, collection, search_query, data):
+    query = mongo[db][collection].replace_one(search_query, data)
+    return query if query else None
+
+def delete_one(db, collection, search_query):
+    query = mongo[db][collection].find_one_and_delete(search_query)
+    return query if query else None

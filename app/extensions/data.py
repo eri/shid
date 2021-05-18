@@ -14,17 +14,23 @@ def get_all_roles():
     return mongo.find("shid", "roles", {})
 
 def get_soignant(id):
-    return mongo.find("shid", "soignants", {"id":str(id)})[0]
+    return mongo.find("shid", "personnels", {"id":str(id)})[0]
 
 def get_soignant_by_username(name):
-    query = mongo.find("shid", "soignants", {"nom_utilisateur":name})[0]
+    query = mongo.find("shid", "personnels", {"nom_utilisateur":name})[0]
     return False if not query else query
+
+def get_all_soignants():
+    return mongo.find("shid", "personnels", {})
 
 def get_patient(id):
     return mongo.find("shid", "patients", {"id":str(id)})[0]
     
 def get_dossier(id):
     return mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}})[0]
+
+def get_all_dossiers():
+    return mongo.find("shid", "patients", {"dossiers":{"$exists": True}})
 
 def get_historique(id):
     return dict(mongo.find("shid", "patients", {f"dossiers.{id}":{"$exists": True}}))[0]
@@ -40,8 +46,8 @@ def stats():
     else:
         lits_utilises = lits_utilises.count()
 
-    lits_disponibles = int(param_structure['capacite_lit'])-lits_utilises
-    doses_disponibles = param_structure['covid_dose']
+    lits_disponibles = int(param_structure['structure']['capacite_lit'])-lits_utilises
+    doses_disponibles = param_structure['covid_mode']['daily_dose']
 
     patients_urgences = mongo.find("shid", "patients", {})
     if not patients_urgences:
@@ -49,7 +55,7 @@ def stats():
     else:
         patients_urgences = patients_urgences.count()
 
-    soignants_rea = mongo.find("shid", "soignants", {'departements.0': '0001'})
+    soignants_rea = mongo.find("shid", "personnels", {'departements.0': '0001'})
     if not soignants_rea:
         soignants_rea = 0
     else:
