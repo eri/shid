@@ -1,0 +1,60 @@
+{% extends "default.html" %}
+
+{% block page_title %} Ajouter un departement {% endblock %}
+
+{% block page_body %}
+
+<div
+class="container flex flex-wrap py-15 px-5 mx-auto md:flex-row"
+>
+  
+  <div class="text-4xl text-center font-medium text-blue-900 w-full">
+    <div class="mx-auto">
+      {% include 'icons/departement.svg' %}
+    </div>
+    Ajouter un département
+    <div class="text-sm mt-4 text-center font-medium text-blue-900">
+      Les départements constituent un groupe de personnels soignants auxquels des dossiers patients seront assignés.<br>
+      Elles permettent de regrouper les dossiers et de limiter le partage de dossiers patients entre l'ensemble des personnels.<br><br>
+    </div>
+
+  </div>
+
+
+  <div class="flex flex-col mt-4 justify-between w-full">
+    <div id="confirmMessage" class="text-lg my-4 p-2 font-semibold bg-green-600 text-gray-100 hidden">
+        Département crée avec succès.
+    </div>
+
+    <div class="mb-1 mt-4 mx-auto text-lg font-semibold text-blue-900">
+      Nom du département
+      <div class="text-sm font-normal">
+        Le nom du département sera visible depuis le portail des personnels.
+      </div>
+    </div>
+    <input id="nom_departement" type="text" placeholder="Nom de domaine ou de groupe de personnes (ex: Orthopédie)" class="w-106 p-2 border-blue-900 mx-auto border-2">
+
+  </div>
+
+  <div class="my-8 mx-auto space-x-2">
+    <a
+    href="#"
+    id="valider"
+    class="px-4 py-1.25 rounded-sm text-lg font-normal bg-blue-900 text-gray-100 no-underline">
+        Créer le département
+    </a>
+    <a
+    href="{{ url_for('portail_administration') }}"
+    class="px-4 py-1.25 rounded-sm text-lg font-normal bg-blue-900 text-gray-100 no-underline">
+        Retour
+    </a>
+  </div>
+
+<!-- Fin du container -->
+</div>
+
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='./js/new_dep.js') }}"></script>
+{% endblock %}
