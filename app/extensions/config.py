@@ -1,6 +1,6 @@
 import datetime
 
-MONGODB_URI = "mongodb://mongodb:27277"
+MONGODB_URI = "mongodb://mongodb:27017"
 MONGODB_DEV_URI = "mongodb://localhost:27017"
 
 DEFAULT_COLLECTION_DEPARTEMENTS = [
