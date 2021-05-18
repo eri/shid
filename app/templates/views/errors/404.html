@@ -6,7 +6,7 @@
 {% block page_body %}
 
 <div
-class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
+class="container flex flex-col flex-wrap py-50 px-10 mx-auto md:flex-row"
 >
 
   <div class="mt-2">
@@ -19,7 +19,7 @@ class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
             Vous avez atteint le néant, cette page n'existe pas ou n'existe plus. Vérifiez l'adresse de la page et réessayez.<br>
             Ça vous dit de retourner à l'accueil ?
         </div>
-        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal">
+        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal {% if not e %}hidden{% endif %}">
             {{ e }}
         </div>
     </div>
@@ -32,3 +32,5 @@ class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
     </div>
 
 </div>
+
+{% endblock %}

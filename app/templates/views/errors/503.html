@@ -19,7 +19,7 @@ class="container flex flex-col flex-wrap py-50 px-10 mx-auto md:flex-row"
             Impossible de se connecter à la base de données. Veuillez réessayer dans quelques minutes.
             <br>Si le problème persiste, contactez votre administrateur de structure.
         </div>
-        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal">
+        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal {% if not e %}hidden{% endif %}">
             {{ e }}
         </div>
     </div>

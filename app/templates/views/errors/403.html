@@ -18,7 +18,7 @@ class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
         <div class="text-xl font-normal">
             Vous ne disposez pas des permissions nécessaires pour consulter cette page.
         </div>
-        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal">
+        <div class="p-2.5 my-5 font-mono bg-gray-900 text-gray-50 rounded-md text-lg font-normal {% if not e %}hidden{% endif %}">
             {{ e }}
         </div>
     </div>
@@ -31,3 +31,5 @@ class="container flex flex-col flex-wrap py-24 px-10 mx-auto md:flex-row"
     </div>
 
 </div>
+
+{% endblock %}
