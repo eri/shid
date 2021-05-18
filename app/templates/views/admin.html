@@ -19,7 +19,6 @@ class="container flex flex-col flex-wrap py-20 px-5 mx-auto md:flex-row"
     />
     <div class="whitespace-nowrap my-auto">
       <div class="text-xl font-semibold text-blue-900">{{ session_user().nom }} {{ session_user().prenom }}</div>
-      <div class="text-sm text-blue-900">Département {{ get_data().get_departement(session_user().departements[0]).nom }}</div>
     </div>
   </div>
 
