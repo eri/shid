@@ -12,5 +12,5 @@ mongodb:
   volumes:
     - data:/data
   ports:
-    - "27017:27277"
+    - "27277:27017"
   command: ["--bind_ip_all"]
