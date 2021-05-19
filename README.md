@@ -65,3 +65,4 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 ### Collaborators
 * [Baflee](https://github.com/Baflee)
+* [Aleou27](https://github.com/aleou)
