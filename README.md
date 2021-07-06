@@ -10,6 +10,9 @@
   <img alt="MongoDB" src ="https://img.shields.io/badge/MongoDB-%234ea94b.svg?&style=for-the-badge&logo=mongodb&logoColor=white"/>
 </p>
 
+# Archived
+> This project is now discontinued and has been archived. We thoroughly think that we didn't hit the potential and limits of this project and it may be recreated in the future by using different languages.
+
 ## Introduction
 
 Early in 2020, the Ministry of Armed Forces of France announced their [call for new projects to fight against the pandemic](https://www.defense.gouv.fr/english/aid/appels-a-projets/appel-a-projets-lutte-covid-19) and were looking for new and innovative solutions to help civil servants, mostly in hospitals and similar sensitive places by using some recent technologies.
